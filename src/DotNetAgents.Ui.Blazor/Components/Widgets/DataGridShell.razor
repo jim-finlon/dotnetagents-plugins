@@ -1,0 +1,65 @@
+<PanelCard Title="@Title" SubTitle="@SubTitle">
+    @if (IsLoading)
+    {
+        <p class="dna-data-grid__state">Loading data...</p>
+    }
+    else if (!string.IsNullOrWhiteSpace(ErrorMessage))
+    {
+        <p class="dna-data-grid__state dna-data-grid__state--error">@ErrorMessage</p>
+    }
+    else if (Rows.Count == 0)
+    {
+        <p class="dna-data-grid__state">No rows available.</p>
+    }
+    else
+    {
+        <div class="dna-data-grid">
+            <table>
+                <thead>
+                    <tr>
+                        @foreach (var column in Columns)
+                        {
+                            <th style="@ResolveHeaderStyle(column)">@column.Header</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Rows)
+                    {
+                        <tr class="dna-data-grid__row dna-intent-@row.Intent.ToString().ToLowerInvariant()">
+                            @foreach (var column in Columns)
+                            {
+                                row.Cells.TryGetValue(column.Key, out var value);
+                                <td class="@(column.Numeric ? "is-numeric" : null)">@value</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</PanelCard>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? SubTitle { get; set; }
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
+    public string? ErrorMessage { get; set; }
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<GridColumnDefinition> Columns { get; set; } = Array.Empty<GridColumnDefinition>();
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<GridRowModel> Rows { get; set; } = Array.Empty<GridRowModel>();
+
+    private static string? ResolveHeaderStyle(GridColumnDefinition column) => string.IsNullOrWhiteSpace(column.Width)
+        ? null
+        : $"width:{column.Width};";
+}

@@ -1,0 +1,85 @@
+@inject NavigationManager NavigationManager
+
+<nav class="dna-nav" aria-label="@AriaLabel">
+    <div class="dna-nav__brand">
+        @if (!string.IsNullOrWhiteSpace(BrandIcon))
+        {
+            <span class="dna-nav__brand-icon" aria-hidden="true">@BrandIcon</span>
+        }
+        <span>@BrandLabel</span>
+    </div>
+    @{
+        var orderedGroups = Items
+            .Select((item, index) => (item, index))
+            .GroupBy(t => t.item.NavGroup ?? "")
+            .OrderBy(g => g.Min(t => t.index))
+            .ToList();
+    }
+    @foreach (var g in orderedGroups)
+    {
+        @if (!string.IsNullOrWhiteSpace(g.Key))
+        {
+            <p class="dna-nav__group-label" role="presentation">@g.Key</p>
+        }
+        <ul class="dna-nav__list">
+            @foreach (var tuple in g.OrderBy(t => t.index))
+            {
+                var item = tuple.item;
+                <li>
+                    <a class="dna-nav__link @(IsActive(item) ? "is-active" : null)"
+                       href="@item.Href"
+                       target="@(IsExternalHref(item.Href) ? "_blank" : null)"
+                       rel="@(IsExternalHref(item.Href) ? "noopener noreferrer" : null)">
+                        <span class="dna-nav__icon" aria-hidden="true">@ResolveIcon(item.Icon)</span>
+                        <span class="dna-nav__label">@item.Label</span>
+                        @if (!string.IsNullOrWhiteSpace(item.Badge))
+                        {
+                            <span class="dna-nav__badge">@item.Badge</span>
+                        }
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+</nav>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<NavItemModel> Items { get; set; } = Array.Empty<NavItemModel>();
+
+    [Parameter]
+    public string BrandLabel { get; set; } = "DNA Platform";
+
+    [Parameter]
+    public string? BrandIcon { get; set; } = "DNA";
+
+    [Parameter]
+    public string AriaLabel { get; set; } = "Primary navigation";
+
+    private bool IsActive(NavItemModel item)
+    {
+        if (IsExternalHref(item.Href)) return false;
+        var relative = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        var path = relative.Split('?', '#')[0];
+        var normalized = item.Href.Trim('/').ToLowerInvariant();
+        return string.Equals(path.Trim('/'), normalized, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsExternalHref(string? href)
+    {
+        if (string.IsNullOrWhiteSpace(href)) return false;
+        var t = href.Trim();
+        return t.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+            || t.StartsWith("https://", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string ResolveIcon(string iconName) => iconName.ToLowerInvariant() switch
+    {
+        "dashboard" => "DB",
+        "lab" => "LB",
+        "metrics" => "MT",
+        "stream" => "ST",
+        "workflow" => "WF",
+        _ => iconName.Length > 2 ? iconName[..2].ToUpperInvariant() : iconName.ToUpperInvariant()
+    };
+}

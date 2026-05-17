@@ -1,0 +1,213 @@
+@using DotNetAgents.Ui.Core.Ideation
+
+@if (IsOpen)
+{
+    <aside class="dna-handoff-drawer" aria-label="Submit ideation canvas to SDLC">
+        <header class="dna-handoff-drawer__header">
+            <div>
+                <p class="dna-eyebrow">Submit to SDLC</p>
+                <h3>@_epicTitle</h3>
+                <p>@StoryDraftCount story candidate(s), @NoteDraftCount note(s), @RiskDraftCount risk(s)</p>
+            </div>
+            <button type="button" @onclick="OnClose">Close</button>
+        </header>
+
+        @if (!string.IsNullOrWhiteSpace(SubmitError))
+        {
+            <div class="dna-handoff-drawer__error" role="alert">@SubmitError</div>
+        }
+
+        @if (SubmissionReceipt is not null)
+        {
+            <section class="dna-handoff-drawer__receipt" aria-label="SDLC submission receipt">
+                <strong>Created epic <a href="@($"/projects?epicId={SubmissionReceipt.EpicId:D}")">@SubmissionReceipt.EpicId.ToString("D")</a></strong>
+                <p>@SubmissionReceipt.DraftMappings.Count mapping(s) linked back to canvas <code>@SubmissionReceipt.GraphId</code>.</p>
+                <div class="dna-handoff-chip-list">
+                    @foreach (var mapping in SubmissionReceipt.DraftMappings)
+                    {
+                        <a class="dna-handoff-chip" href="@($"/story/{mapping.ResultingStoryId:D}")">
+                            @mapping.Title
+                        </a>
+                    }
+                </div>
+            </section>
+        }
+
+        <section class="dna-handoff-drawer__section">
+            <label>
+                Epic title
+                <input value="@_epicTitle" @oninput="e => _epicTitle = e.Value?.ToString() ?? string.Empty" />
+            </label>
+            <label>
+                Epic description
+                <textarea value="@_epicDescription" @oninput="e => _epicDescription = e.Value?.ToString() ?? string.Empty"></textarea>
+            </label>
+        </section>
+
+        <section class="dna-handoff-drawer__section">
+            <div class="dna-handoff-drawer__section-title">
+                <strong>Draft stories</strong>
+                <span>Review before creating SDLC work. Nothing submits until confirmed.</span>
+            </div>
+
+            @if (_drafts.Count == 0)
+            {
+                <p class="muted">No draft rows were projected from this canvas.</p>
+            }
+            else
+            {
+                @foreach (var row in _drafts)
+                {
+                    <article class="dna-handoff-draft" @key="row.DraftId">
+                        <header>
+                            <code>@row.DraftId</code>
+                            <span>@string.Join(", ", row.SourceNodeIds)</span>
+                        </header>
+                        <label>
+                            Title
+                            <input value="@row.Title" @oninput="e => row.Title = e.Value?.ToString() ?? string.Empty" />
+                        </label>
+                        <label>
+                            Description
+                            <textarea value="@row.Description" @oninput="e => row.Description = e.Value?.ToString() ?? string.Empty"></textarea>
+                        </label>
+                        <label>
+                            Acceptance criteria
+                            <textarea value="@row.AcceptanceCriteria" @oninput="e => row.AcceptanceCriteria = e.Value?.ToString()"></textarea>
+                        </label>
+                        <div class="dna-handoff-draft__selectors">
+                            <label>
+                                Story type
+                                <select @bind="row.Kind">
+                                    @foreach (var kind in Enum.GetValues<IdeationDraftKind>())
+                                    {
+                                        <option value="@kind">@kind</option>
+                                    }
+                                </select>
+                            </label>
+                            <label>
+                                Severity
+                                <select @bind="row.Severity">
+                                    @foreach (var severity in SeverityOptions)
+                                    {
+                                        <option value="@severity">@severity</option>
+                                    }
+                                </select>
+                            </label>
+                        </div>
+                    </article>
+                }
+            }
+        </section>
+
+        <footer class="dna-handoff-drawer__footer">
+            <button type="button" class="dna-handoff-submit" @onclick="SubmitAsync" disabled="@(IsSubmitting || _drafts.Count == 0)">
+                @(IsSubmitting ? "Submitting..." : $"Create {_drafts.Count} SDLC item(s)")
+            </button>
+            <span>Preview is opt-in and traceable to canvas <code>@Spec?.GraphId</code>.</span>
+        </footer>
+    </aside>
+}
+
+@code {
+    private static readonly string[] SeverityOptions = ["Unclassified", "P0", "P1", "P2", "P3"];
+
+    private IdeationHandoffSpec? _loadedSpec;
+    private string _epicTitle = string.Empty;
+    private string _epicDescription = string.Empty;
+    private List<EditableDraft> _drafts = new();
+
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public bool IsSubmitting { get; set; }
+
+    [Parameter]
+    public string? SubmitError { get; set; }
+
+    [Parameter]
+    public IdeationHandoffSpec? Spec { get; set; }
+
+    [Parameter]
+    public HandoffSubmissionReceipt? SubmissionReceipt { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    [Parameter]
+    public EventCallback<IdeationHandoffSpec> OnSubmit { get; set; }
+
+    private int StoryDraftCount => _drafts.Count(d => d.Kind == IdeationDraftKind.Story);
+    private int NoteDraftCount => _drafts.Count(d => d.Kind == IdeationDraftKind.Note);
+    private int RiskDraftCount => _drafts.Count(d => d.Kind == IdeationDraftKind.Risk);
+
+    protected override void OnParametersSet()
+    {
+        if (Spec is null || ReferenceEquals(Spec, _loadedSpec))
+            return;
+
+        _loadedSpec = Spec;
+        _epicTitle = Spec.Epic.Title;
+        _epicDescription = Spec.Epic.Description;
+        _drafts = Spec.Drafts.Select(EditableDraft.FromDraft).ToList();
+    }
+
+    private async Task SubmitAsync()
+    {
+        if (Spec is null || !OnSubmit.HasDelegate)
+            return;
+
+        var spec = new IdeationHandoffSpec(
+            Spec.GraphId,
+            new IdeationEpicDraft(_epicTitle, _epicDescription, Spec.Epic.SourceNodeIds),
+            _drafts.Select(d => d.ToDraft()).ToList(),
+            Spec.GeneratedAtUtc);
+
+        await OnSubmit.InvokeAsync(spec);
+    }
+
+    private sealed class EditableDraft
+    {
+        public string DraftId { get; init; } = string.Empty;
+        public IdeationDraftKind Kind { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string? AcceptanceCriteria { get; set; }
+        public IReadOnlyList<string> SourceNodeIds { get; init; } = Array.Empty<string>();
+        public IReadOnlyList<string> Tags { get; init; } = Array.Empty<string>();
+        public string Severity { get; set; } = "Unclassified";
+
+        public static EditableDraft FromDraft(IdeationStoryDraft draft)
+        {
+            var severity = draft.Tags.FirstOrDefault(t => t.StartsWith("severity:", StringComparison.OrdinalIgnoreCase));
+            return new EditableDraft
+            {
+                DraftId = draft.DraftId,
+                Kind = draft.Kind,
+                Title = draft.Title,
+                Description = draft.Description,
+                AcceptanceCriteria = draft.AcceptanceCriteria,
+                SourceNodeIds = draft.SourceNodeIds,
+                Tags = draft.Tags.Where(t => !t.StartsWith("severity:", StringComparison.OrdinalIgnoreCase)).ToList(),
+                Severity = severity is null ? "Unclassified" : severity["severity:".Length..],
+            };
+        }
+
+        public IdeationStoryDraft ToDraft()
+        {
+            var tags = Tags.Where(t => !t.StartsWith("severity:", StringComparison.OrdinalIgnoreCase)).ToList();
+            if (!string.Equals(Severity, "Unclassified", StringComparison.OrdinalIgnoreCase))
+                tags.Add($"severity:{Severity}");
+
+            return new IdeationStoryDraft(
+                DraftId,
+                Kind,
+                Title,
+                Description,
+                AcceptanceCriteria,
+                SourceNodeIds,
+                tags);
+        }
+    }
+}

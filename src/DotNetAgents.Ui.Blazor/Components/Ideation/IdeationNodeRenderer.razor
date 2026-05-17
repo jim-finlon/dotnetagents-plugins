@@ -1,0 +1,36 @@
+@using DotNetAgents.Ui.Core.Ideation
+
+@switch (PaletteKind)
+{
+    case "requirement-fragment":
+        <RequirementFragmentNode Node="Node" OnUpdateNode="OnUpdateNode" OnDeleteNode="OnDeleteNode" />
+        break;
+    case "agent-prompt":
+        <AgentPromptNode Node="Node" OnUpdateNode="OnUpdateNode" OnDeleteNode="OnDeleteNode" />
+        break;
+    case "link":
+        <LinkNode Node="Node" OnUpdateNode="OnUpdateNode" OnDeleteNode="OnDeleteNode" />
+        break;
+    case "group":
+        <GroupNode Node="Node" OnUpdateNode="OnUpdateNode" OnDeleteNode="OnDeleteNode" />
+        break;
+    case "freeform-shape":
+        <FreeformShapeNode Node="Node" OnUpdateNode="OnUpdateNode" OnDeleteNode="OnDeleteNode" />
+        break;
+    default:
+        <StickyNoteNode Node="Node" OnUpdateNode="OnUpdateNode" OnDeleteNode="OnDeleteNode" />
+        break;
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public IdeationNode Node { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<IdeationNode> OnUpdateNode { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnDeleteNode { get; set; }
+
+    private string PaletteKind => IdeationNodePalette.Resolve(Node);
+}

@@ -1,0 +1,220 @@
+@using DotNetAgents.Ui.Core
+
+<PanelCard Title="@Model.DisplayName" SubTitle="@Model.StatusMessage" Intent="@CardIntent">
+    <HeaderActions>
+        <div class="dna-control-loop-card__badges">
+            <StatusBadge Label="@LifecycleLabel" Intent="@LifecycleIntent" />
+            @if (AttentionIntent is not null)
+            {
+                <StatusBadge Label="@AttentionLabel" Intent="@AttentionIntent.Value" />
+            }
+        </div>
+    </HeaderActions>
+    <ChildContent>
+        <div class="dna-control-loop-card">
+            <div class="dna-control-loop-card__meta">
+                <span><strong>Service</strong> @Model.ServiceId</span>
+                @if (Model.LastTransitionUtc.HasValue)
+                {
+                    <span><strong>Transition</strong> @Model.LastTransitionUtc.Value.LocalDateTime.ToString("g")</span>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.CorrelationId))
+                {
+                    <span><strong>Correlation</strong> @Model.CorrelationId</span>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.ActiveStoryId))
+                {
+                    <span><strong>Story</strong> @Model.ActiveStoryId</span>
+                }
+            </div>
+
+            @if (Model.Queue is not null)
+            {
+                <dl class="dna-control-loop-card__queue">
+                    <div>
+                        <dt>Pending</dt>
+                        <dd>@Model.Queue.PendingDepth</dd>
+                    </div>
+                    <div>
+                        <dt>In flight</dt>
+                        <dd>@Model.Queue.InFlight</dd>
+                    </div>
+                    @if (Model.Queue.MaxDepthBudget.HasValue)
+                    {
+                        <div>
+                            <dt>Budget</dt>
+                            <dd>@Model.Queue.MaxDepthBudget.Value</dd>
+                        </div>
+                    }
+                    @if (Model.Queue.OldestPendingUtc.HasValue)
+                    {
+                        <div>
+                            <dt>Oldest pending</dt>
+                            <dd>@Model.Queue.OldestPendingUtc.Value.LocalDateTime.ToString("g")</dd>
+                        </div>
+                    }
+                </dl>
+            }
+
+            @if (Evidence.Count > 0)
+            {
+                <div class="dna-control-loop-card__evidence">
+                    <p class="dna-control-loop-card__section-label">Recent evidence</p>
+                    <ul>
+                        @foreach (var evidence in Evidence)
+                        {
+                            <li>
+                                @if (!string.IsNullOrWhiteSpace(evidence.Href))
+                                {
+                                    <a href="@evidence.Href">@evidence.Label</a>
+                                }
+                                else
+                                {
+                                    <span>@evidence.Label</span>
+                                }
+                                <small>@evidence.Kind</small>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </ChildContent>
+</PanelCard>
+
+@code {
+    [Parameter, EditorRequired]
+    public ControlLoopSnapshotModel Model { get; set; } = default!;
+
+    [Parameter]
+    public int MaxEvidenceItems { get; set; } = 4;
+
+    private IReadOnlyList<ControlLoopEvidenceRef> Evidence =>
+        Model.RecentEvidence?.Take(MaxEvidenceItems).ToArray() ?? [];
+
+    private string LifecycleLabel => Model.Lifecycle.ToString();
+
+    private string AttentionLabel => Model.Attention switch
+    {
+        ControlLoopAttentionLevel.ActionRecommended => "Action recommended",
+        ControlLoopAttentionLevel.OperatorRequired => "Operator required",
+        ControlLoopAttentionLevel.Info => "Info",
+        _ => "Nominal"
+    };
+
+    private UiIntent LifecycleIntent => Model.Lifecycle switch
+    {
+        ControlLoopLifecycleState.Running => UiIntent.Success,
+        ControlLoopLifecycleState.Starting => UiIntent.Info,
+        ControlLoopLifecycleState.Idle => UiIntent.Neutral,
+        ControlLoopLifecycleState.Paused => UiIntent.Warning,
+        ControlLoopLifecycleState.Degraded => UiIntent.Warning,
+        ControlLoopLifecycleState.Blocked => UiIntent.Danger,
+        ControlLoopLifecycleState.Failed => UiIntent.Danger,
+        _ => UiIntent.Neutral
+    };
+
+    private UiIntent? AttentionIntent => Model.Attention switch
+    {
+        ControlLoopAttentionLevel.None => null,
+        ControlLoopAttentionLevel.Info => UiIntent.Info,
+        ControlLoopAttentionLevel.ActionRecommended => UiIntent.Warning,
+        ControlLoopAttentionLevel.OperatorRequired => UiIntent.Danger,
+        _ => null
+    };
+
+    private UiIntent CardIntent => AttentionIntent ?? LifecycleIntent;
+}
+
+<style>
+    .dna-control-loop-card {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .dna-control-loop-card__badges {
+        display: flex;
+        gap: 0.45rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .dna-control-loop-card__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem 1rem;
+        color: var(--dna-text-secondary);
+        font-size: 0.88rem;
+    }
+
+    .dna-control-loop-card__queue {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        margin: 0;
+    }
+
+    .dna-control-loop-card__queue div {
+        padding: 0.75rem;
+        border-radius: 0.75rem;
+        border: 1px solid var(--dna-border-muted);
+        background: var(--dna-surface-muted, rgba(18, 30, 54, 0.72));
+    }
+
+    .dna-control-loop-card__queue dt {
+        margin: 0;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--dna-text-muted);
+    }
+
+    .dna-control-loop-card__queue dd {
+        margin: 0.35rem 0 0;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--dna-text-primary);
+    }
+
+    .dna-control-loop-card__section-label {
+        margin: 0 0 0.45rem;
+        color: var(--dna-text-muted);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .dna-control-loop-card__evidence ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.5rem;
+    }
+
+    .dna-control-loop-card__evidence li {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.65rem 0.75rem;
+        border-radius: 0.75rem;
+        border: 1px solid var(--dna-border-muted);
+        background: color-mix(in srgb, var(--dna-surface-card) 78%, transparent);
+    }
+
+    .dna-control-loop-card__evidence a,
+    .dna-control-loop-card__evidence span {
+        color: var(--dna-text-primary);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .dna-control-loop-card__evidence a:hover {
+        text-decoration: underline;
+    }
+
+    .dna-control-loop-card__evidence small {
+        color: var(--dna-text-muted);
+        text-transform: uppercase;
+    }
+</style>

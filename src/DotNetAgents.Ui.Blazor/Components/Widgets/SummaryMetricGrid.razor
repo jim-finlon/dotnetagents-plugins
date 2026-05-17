@@ -1,0 +1,83 @@
+@using DotNetAgents.Ui.Core
+
+<section class="dna-summary-metric-grid @CssClass" aria-label="@AriaLabel">
+    @foreach (var m in Items)
+    {
+        <article class="dna-summary-metric @IntentClass(m.Intent)">
+            <div class="dna-summary-metric__label">@m.Label</div>
+            <div class="dna-summary-metric__value">@m.Value</div>
+            @if (!string.IsNullOrWhiteSpace(m.Note))
+            {
+                <div class="dna-summary-metric__note">@m.Note</div>
+            }
+        </article>
+    }
+</section>
+
+@code {
+    /// <summary>Row of KPI tiles (e.g. ready vs needs-shaping vs review queue).</summary>
+    [Parameter, EditorRequired]
+    public IReadOnlyList<SummaryMetricModel> Items { get; set; } = [];
+
+    [Parameter]
+    public string AriaLabel { get; set; } = "Summary metrics";
+
+    [Parameter]
+    public string? CssClass { get; set; }
+
+    private static string IntentClass(UiIntent intent) => intent switch
+    {
+        UiIntent.Primary => "dna-summary-metric--primary",
+        UiIntent.Info => "dna-summary-metric--info",
+        UiIntent.Success => "dna-summary-metric--success",
+        UiIntent.Warning => "dna-summary-metric--warning",
+        UiIntent.Danger => "dna-summary-metric--danger",
+        _ => "dna-summary-metric--neutral"
+    };
+}
+
+<style>
+    .dna-summary-metric-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .dna-summary-metric {
+        background: var(--dna-surface-card, #ffffff);
+        border: 1px solid var(--dna-border-subtle, #dbe2ea);
+        border-top: 4px solid var(--dna-summary-accent, #94a3b8);
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+    }
+
+    .dna-summary-metric__label {
+        color: var(--dna-text-muted, #64748b);
+        font-size: 0.84rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .dna-summary-metric__value {
+        margin-top: 0.35rem;
+        color: var(--dna-text-primary, #0f172a);
+        font-size: 1.8rem;
+        font-weight: 800;
+    }
+
+    .dna-summary-metric__note {
+        margin-top: 0.35rem;
+        color: var(--dna-text-secondary, #475569);
+        font-size: 0.88rem;
+        line-height: 1.45;
+    }
+
+    .dna-summary-metric--neutral { --dna-summary-accent: #94a3b8; }
+    .dna-summary-metric--primary { --dna-summary-accent: #6366f1; }
+    .dna-summary-metric--info { --dna-summary-accent: #0ea5e9; }
+    .dna-summary-metric--success { --dna-summary-accent: #16a34a; }
+    .dna-summary-metric--warning { --dna-summary-accent: #ea580c; }
+    .dna-summary-metric--danger { --dna-summary-accent: #dc2626; }
+</style>

@@ -1,0 +1,11 @@
+<span class="dna-status-badge @IntentClass">@Label</span>
+
+@code {
+    [Parameter]
+    public UiIntent Intent { get; set; } = UiIntent.Neutral;
+
+    [Parameter, EditorRequired]
+    public string Label { get; set; } = string.Empty;
+
+    private string IntentClass => $"dna-status-badge--{Intent.ToString().ToLowerInvariant()}";
+}

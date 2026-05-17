@@ -1,0 +1,41 @@
+@namespace DotNetAgents.Ui.Blazor.Components.Widgets
+@using DotNetAgents.Ui.Core
+
+<span class="dna-health-indicator @IntentClass"
+      role="img"
+      aria-label="@AriaLabel"
+      title="@TooltipText">
+    <span class="dna-health-indicator__dot" aria-hidden="true"></span>
+    <span class="dna-health-indicator__label">@Label</span>
+</span>
+
+@code {
+    /// <summary>
+    /// Service display name. Used in the accessible label and tooltip so screen readers
+    /// announce, e.g., "WorkflowService: Healthy". Optional — when omitted, only the state is read.
+    /// </summary>
+    [Parameter]
+    public string? ServiceName { get; set; }
+
+    /// <summary>
+    /// Resolved indicator intent (Success / Warning / Danger / Info / Neutral).
+    /// </summary>
+    [Parameter, EditorRequired]
+    public UiIntent Intent { get; set; } = UiIntent.Neutral;
+
+    /// <summary>Visible label, e.g. "Healthy", "Degraded", "Unreachable", "Planned".</summary>
+    [Parameter, EditorRequired]
+    public string Label { get; set; } = string.Empty;
+
+    /// <summary>Optional tooltip / aria-describedby text. Falls back to label when omitted.</summary>
+    [Parameter]
+    public string? Tooltip { get; set; }
+
+    private string IntentClass => $"dna-health-indicator--{Intent.ToString().ToLowerInvariant()}";
+
+    private string AriaLabel => string.IsNullOrWhiteSpace(ServiceName)
+        ? Label
+        : $"{ServiceName}: {Label}";
+
+    private string TooltipText => string.IsNullOrWhiteSpace(Tooltip) ? AriaLabel : Tooltip;
+}

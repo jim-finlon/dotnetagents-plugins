@@ -1,0 +1,53 @@
+<PanelCard Title="@Title" SubTitle="@SubTitle" Intent="@Series.Intent">
+    <div class="dna-trend-card">
+        <svg viewBox="0 0 120 40" preserveAspectRatio="none" role="img" aria-label="@($"{Title} trend line")">
+            <path d="@PathData" />
+        </svg>
+        <div class="dna-trend-card__meta">
+            <span>@StartValueLabel</span>
+            <span>@EndValueLabel</span>
+        </div>
+    </div>
+</PanelCard>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? SubTitle { get; set; }
+
+    [Parameter, EditorRequired]
+    public TrendSeriesModel Series { get; set; } = default!;
+
+    private string PathData => BuildPathData(Series.Points);
+
+    private string StartValueLabel => Series.Points.Count == 0 ? "--" : Series.Points[0].Value.ToString("0.##");
+
+    private string EndValueLabel => Series.Points.Count == 0 ? "--" : Series.Points[^1].Value.ToString("0.##");
+
+    private static string BuildPathData(IReadOnlyList<TrendPoint> points)
+    {
+        if (points.Count == 0)
+        {
+            return "M0,20 L120,20";
+        }
+
+        var min = points.Min(static point => point.Value);
+        var max = points.Max(static point => point.Value);
+        var range = Math.Abs(max - min) < 0.0001 ? 1 : max - min;
+        var step = points.Count == 1 ? 120d : 120d / (points.Count - 1);
+
+        var commands = new List<string>(points.Count);
+        for (var index = 0; index < points.Count; index++)
+        {
+            var point = points[index];
+            var x = step * index;
+            var normalized = (point.Value - min) / range;
+            var y = 36d - (normalized * 32d);
+            commands.Add($"{(index == 0 ? "M" : "L")}{x:0.##},{y:0.##}");
+        }
+
+        return string.Join(' ', commands);
+    }
+}

@@ -1,0 +1,103 @@
+@using DotNetAgents.Ui.Core.Ideation
+
+<section class="dna-ideation-canvas" aria-label="Ideation canvas @Model.Graph.DisplayName">
+    <header class="dna-ideation-canvas__header">
+        <div>
+            <p class="dna-eyebrow">Collaborative canvas</p>
+            <h2>@Model.Graph.DisplayName</h2>
+            <p>@Model.Graph.Nodes.Count node(s), @Model.Graph.Edges.Count edge(s), updated @Model.Graph.UpdatedAtUtc.ToLocalTime().ToString("g")</p>
+        </div>
+        <div class="dna-ideation-canvas__participants" aria-label="Participants">
+            @if (Model.Participants.Count == 0)
+            {
+                <span>Solo editing</span>
+            }
+            else
+            {
+                @foreach (var participant in Model.Participants)
+                {
+                    <span title="@participant.ActorId">@participant.DisplayName</span>
+                }
+            }
+        </div>
+    </header>
+
+    @if (!string.IsNullOrWhiteSpace(Model.ConflictMessage))
+    {
+        <div class="dna-ideation-canvas__conflict" role="status">@Model.ConflictMessage</div>
+    }
+
+    <div class="dna-ideation-canvas__surface" @onmousemove="HandlePointerMoveAsync">
+        @foreach (var edge in Model.Graph.Edges)
+        {
+            <div class="dna-ideation-edge" @key="edge.EdgeId">
+                <span>@edge.SourceNodeId</span>
+                <strong>@edge.Kind</strong>
+                <span>@edge.TargetNodeId</span>
+            </div>
+        }
+
+        @foreach (var node in Model.Graph.Nodes.OrderBy(n => n.Position.ZIndex).ThenBy(n => n.NodeId, StringComparer.Ordinal))
+        {
+            <IdeationNodeRenderer Node="node"
+                                  OnUpdateNode="OnUpdateNode"
+                                  OnDeleteNode="OnDeleteNode" />
+            @if (StoryLinksByNodeId.TryGetValue(node.NodeId, out var storyHref))
+            {
+                <a class="dna-ideation-story-badge"
+                   style="left:@($"{node.Position.X + 12:0}px"); top:@($"{node.Position.Y + 12:0}px")"
+                   href="@storyHref"
+                   @key="@($"story-badge-{node.NodeId}")">
+                    linked to SDLC
+                </a>
+            }
+        }
+
+        @foreach (var cursor in Model.Cursors)
+        {
+            <div class="dna-ideation-cursor"
+                 style="left:@($"{cursor.X:0}px"); top:@($"{cursor.Y:0}px")"
+                 @key="cursor.ActorId">
+                <span>@cursor.DisplayName</span>
+            </div>
+        }
+    </div>
+</section>
+
+@code {
+    private DateTimeOffset _lastCursorSent = DateTimeOffset.MinValue;
+
+    [Parameter, EditorRequired]
+    public IdeationCanvasViewModel Model { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<IdeationCursorPresence> OnCursorMoved { get; set; }
+
+    [Parameter]
+    public EventCallback<IdeationNode> OnUpdateNode { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnDeleteNode { get; set; }
+
+    [Parameter]
+    public IReadOnlyDictionary<string, string> StoryLinksByNodeId { get; set; } = new Dictionary<string, string>();
+
+    [Parameter]
+    public string LocalActorId { get; set; } = "operator";
+
+    [Parameter]
+    public string LocalDisplayName { get; set; } = "Operator";
+
+    private async Task HandlePointerMoveAsync(MouseEventArgs args)
+    {
+        var now = DateTimeOffset.UtcNow;
+        if (now - _lastCursorSent < TimeSpan.FromMilliseconds(100))
+            return;
+
+        _lastCursorSent = now;
+        if (OnCursorMoved.HasDelegate)
+        {
+            await OnCursorMoved.InvokeAsync(new IdeationCursorPresence(LocalActorId, LocalDisplayName, args.OffsetX, args.OffsetY, now));
+        }
+    }
+}

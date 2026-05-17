@@ -1,0 +1,62 @@
+@using DotNetAgents.Ui.Core
+
+<PanelCard Title="@Model.Title" SubTitle="@AsOfLabel">
+    <SummaryMetricGrid Items="@SummaryMetrics" AriaLabel="Control loop summary metrics" />
+
+    @if (Model.Loops.Count == 0)
+    {
+        <p class="dna-control-loop-scorecard__empty">No control loops are published yet.</p>
+    }
+    else
+    {
+        <section class="dna-control-loop-scorecard">
+            @foreach (var loop in OrderedLoops)
+            {
+                <ControlLoopCard Model="@loop" />
+            }
+        </section>
+    }
+</PanelCard>
+
+@code {
+    [Parameter, EditorRequired]
+    public ControlLoopScorecardModel Model { get; set; } = default!;
+
+    private string? AsOfLabel => Model.AsOfUtc.HasValue
+        ? $"As of {Model.AsOfUtc.Value.LocalDateTime:g}"
+        : null;
+
+    private IReadOnlyList<ControlLoopSnapshotModel> OrderedLoops =>
+        Model.Loops
+            .OrderByDescending(loop => loop.Attention)
+            .ThenBy(loop => loop.DisplayName, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+    private IReadOnlyList<SummaryMetricModel> SummaryMetrics =>
+    [
+        new("loops-total", "Loops", Model.Loops.Count.ToString(), $"{RunningCount} running"),
+        new("loops-attention", "Needs attention", AttentionCount.ToString(), AttentionCount == 0 ? "No operator action required" : "One or more loops need review", AttentionCount == 0 ? UiIntent.Success : UiIntent.Warning),
+        new("loops-failed", "Failed or blocked", FailedCount.ToString(), FailedCount == 0 ? "No hard stops" : "Triage failing loops first", FailedCount == 0 ? UiIntent.Success : UiIntent.Danger)
+    ];
+
+    private int RunningCount => Model.Loops.Count(loop => loop.Lifecycle == ControlLoopLifecycleState.Running);
+
+    private int AttentionCount => Model.Loops.Count(loop => loop.Attention >= ControlLoopAttentionLevel.ActionRecommended);
+
+    private int FailedCount => Model.Loops.Count(loop =>
+        loop.Lifecycle is ControlLoopLifecycleState.Blocked or ControlLoopLifecycleState.Failed);
+}
+
+<style>
+    .dna-control-loop-scorecard {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+
+    .dna-control-loop-scorecard__empty {
+        margin: 1rem 0 0;
+        color: var(--dna-text-secondary);
+    }
+</style>

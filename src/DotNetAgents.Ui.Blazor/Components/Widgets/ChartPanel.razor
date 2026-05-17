@@ -1,0 +1,30 @@
+<PanelCard Title="@Title" SubTitle="@SubTitle">
+    <div class="dna-chart-panel">
+        @if (ResolvedContent is not null)
+        {
+            @ResolvedContent
+        }
+        else
+        {
+            <div class="dna-chart-panel__placeholder">
+                <span>Chart host</span>
+            </div>
+        }
+    </div>
+</PanelCard>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? SubTitle { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChartContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private RenderFragment? ResolvedContent => ChildContent ?? ChartContent;
+}

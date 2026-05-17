@@ -1,0 +1,41 @@
+@namespace DotNetAgents.Ui.Blazor.Components.Layout
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration? Configuration
+
+<nav class="dna-portal-nav" aria-label="Portal navigation">
+    <a class="dna-portal-nav__brand"
+       href="@ResolvedPortalRootUrl"
+       title="Back to Prime Pulse"
+       aria-label="Back to Prime Pulse — DNA operator portal">
+        <span class="dna-portal-nav__back" aria-hidden="true">←</span>
+        <span class="dna-portal-nav__brand-label">Prime Pulse</span>
+    </a>
+    <span class="dna-portal-nav__separator" aria-hidden="true">/</span>
+    <span class="dna-portal-nav__current">@ServiceName</span>
+    @if (!string.IsNullOrWhiteSpace(ServiceSubtitle))
+    {
+        <span class="dna-portal-nav__subtitle">— @ServiceSubtitle</span>
+    }
+</nav>
+
+@code {
+    /// <summary>
+    /// The display name of the service hosting this UI (e.g. "WorkflowService", "Credentials Dashboard").
+    /// Rendered as the current breadcrumb segment.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public string ServiceName { get; set; } = string.Empty;
+
+    /// <summary>Optional service tagline rendered after the service name.</summary>
+    [Parameter]
+    public string? ServiceSubtitle { get; set; }
+
+    /// <summary>
+    /// Optional override for the portal root URL. When omitted, falls back to the
+    /// `Portal:RootUrl` configuration key, then to <c>http://tyr/</c>.
+    /// </summary>
+    [Parameter]
+    public string? PortalRootUrl { get; set; }
+
+    private string ResolvedPortalRootUrl => PortalNavConfig.Resolve(Configuration, PortalRootUrl);
+}

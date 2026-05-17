@@ -1,0 +1,26 @@
+@using DotNetAgents.Ui.Core
+
+<section class="dna-control-loop-chrome @AdditionalCssClass" aria-label="@EffectiveAriaLabel">
+    <ControlLoopScorecard Model="Model" />
+</section>
+
+@code {
+    /// <summary>Shared outer chrome for control-loop strips across workflow control plane, Ecosystem scorecard, and operator shells.</summary>
+    [Parameter, EditorRequired]
+    public ControlLoopScorecardModel Model { get; set; } = default!;
+
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
+    /// <summary>Optional host-specific class (e.g. ecosystem scorecard spacing).</summary>
+    [Parameter]
+    public string? AdditionalCssClass { get; set; }
+
+    private string EffectiveAriaLabel => string.IsNullOrWhiteSpace(AriaLabel) ? "Control loops" : AriaLabel!;
+}
+
+<style>
+    .dna-control-loop-chrome {
+        margin: 1.25rem 0;
+    }
+</style>

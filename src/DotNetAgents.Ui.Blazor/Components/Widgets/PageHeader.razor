@@ -1,0 +1,50 @@
+<header class="dna-page-header">
+    <div>
+        @if (Breadcrumbs.Count > 0)
+        {
+            <nav class="dna-breadcrumbs" aria-label="Breadcrumb">
+                @foreach (var (crumb, index) in Breadcrumbs.Select((value, i) => (value, i)))
+                {
+                    if (!string.IsNullOrWhiteSpace(crumb.Href))
+                    {
+                        <a href="@crumb.Href">@crumb.Label</a>
+                    }
+                    else
+                    {
+                        <span>@crumb.Label</span>
+                    }
+
+                    if (index < Breadcrumbs.Count - 1)
+                    {
+                        <span aria-hidden="true">/</span>
+                    }
+                }
+            </nav>
+        }
+        <h1>@Title</h1>
+        @if (!string.IsNullOrWhiteSpace(SubTitle))
+        {
+            <p>@SubTitle</p>
+        }
+    </div>
+    @if (Actions is not null)
+    {
+        <div class="dna-page-header__actions">
+            @Actions
+        </div>
+    }
+</header>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? SubTitle { get; set; }
+
+    [Parameter]
+    public IReadOnlyList<BreadcrumbItem> Breadcrumbs { get; set; } = Array.Empty<BreadcrumbItem>();
+
+    [Parameter]
+    public RenderFragment? Actions { get; set; }
+}

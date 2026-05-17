@@ -1,0 +1,51 @@
+<div class="dna-theme-@Theme">
+    <div class="dna-shell @DensityClass">
+        @* Checkbox + scrim: narrow viewports slide-out nav (see dna-ui.css). Label `for` lives in consumer topbar. *@
+        <input type="checkbox" id="dna-shell-sidebar" class="dna-shell__sidebar-cb" autocomplete="off" />
+        <aside class="dna-shell__sidebar">
+            @Sidebar
+        </aside>
+        <label for="dna-shell-sidebar" class="dna-shell__sidebar-scrim" aria-hidden="true"></label>
+        <section class="dna-shell__main">
+            <header class="dna-shell__topbar">
+                @Topbar
+            </header>
+            @if (Ribbon is not null)
+            {
+                <section class="dna-shell__ribbon">
+                    @Ribbon
+                </section>
+            }
+            <main class="dna-shell__content">
+                @ChildContent
+            </main>
+        </section>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment Sidebar { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public RenderFragment Topbar { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment? Ribbon { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    [Parameter]
+    public string Theme { get; set; } = "light";
+
+    [Parameter]
+    public UiDensity Density { get; set; } = UiDensity.Comfortable;
+
+    private string DensityClass => Density switch
+    {
+        UiDensity.Compact => "dna-shell--compact",
+        UiDensity.Spacious => "dna-shell--spacious",
+        _ => "dna-shell--comfortable"
+    };
+}

@@ -1,0 +1,37 @@
+<section class="dna-panel @IntentClass">
+    <header class="dna-panel__header">
+        <h2>@Title</h2>
+        @if (HeaderActions is not null)
+        {
+            <div class="dna-panel__actions">
+                @HeaderActions
+            </div>
+        }
+    </header>
+    @if (!string.IsNullOrWhiteSpace(SubTitle))
+    {
+        <p class="dna-panel__subtitle">@SubTitle</p>
+    }
+    <div class="dna-panel__body">
+        @ChildContent
+    </div>
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? SubTitle { get; set; }
+
+    [Parameter]
+    public UiIntent Intent { get; set; } = UiIntent.Neutral;
+
+    [Parameter]
+    public RenderFragment? HeaderActions { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    private string IntentClass => $"dna-intent-{Intent.ToString().ToLowerInvariant()}";
+}

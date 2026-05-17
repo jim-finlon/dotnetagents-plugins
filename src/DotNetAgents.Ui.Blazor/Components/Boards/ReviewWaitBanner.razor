@@ -1,0 +1,93 @@
+@using DotNetAgents.Ui.Core
+
+<section class="dna-review-wait @IntentClass(Intent)">
+    <div class="dna-review-wait__text">
+        <h3 class="dna-review-wait__title">Review wait</h3>
+        <p class="dna-review-wait__stats">
+            <span class="dna-review-wait__chip"><strong>@NeedsReviewCount</strong> needs review</span>
+            <span class="dna-review-wait__chip"><strong>@InReviewCount</strong> in review</span>
+            <span class="dna-review-wait__chip"><strong>@TotalInReviewFlow</strong> total</span>
+        </p>
+        @if (!string.IsNullOrWhiteSpace(LongestWaitHint))
+        {
+            <p class="dna-review-wait__hint">@LongestWaitHint</p>
+        }
+    </div>
+</section>
+
+@code {
+    /// <summary>Stories in NeedsReview (status 5).</summary>
+    [Parameter]
+    public int NeedsReviewCount { get; set; }
+
+    /// <summary>Stories in InReview (status 2).</summary>
+    [Parameter]
+    public int InReviewCount { get; set; }
+
+    /// <summary>Optional hint (e.g. stale story by UpdatedAt).</summary>
+    [Parameter]
+    public string? LongestWaitHint { get; set; }
+
+    [Parameter]
+    public UiIntent Intent { get; set; } = UiIntent.Info;
+
+    private int TotalInReviewFlow => NeedsReviewCount + InReviewCount;
+
+    private static string IntentClass(UiIntent intent) => intent switch
+    {
+        UiIntent.Primary => "dna-review-wait--primary",
+        UiIntent.Info => "dna-review-wait--info",
+        UiIntent.Success => "dna-review-wait--success",
+        UiIntent.Warning => "dna-review-wait--warning",
+        UiIntent.Danger => "dna-review-wait--danger",
+        _ => "dna-review-wait--neutral"
+    };
+}
+
+<style>
+    .dna-review-wait {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem 1.1rem;
+        border-radius: 12px;
+        border: 1px solid var(--dna-border-subtle, #dbe2ea);
+        border-top: 4px solid var(--dna-review-accent, #0ea5e9);
+        background: var(--dna-surface-card, #ffffff);
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+        margin-bottom: 1.25rem;
+    }
+
+    .dna-review-wait__title {
+        margin: 0;
+        font-size: 1rem;
+        color: var(--dna-text-primary, #0f172a);
+    }
+
+    .dna-review-wait__stats {
+        margin: 0.45rem 0 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 0.75rem;
+        color: var(--dna-text-secondary, #334155);
+        font-size: 0.9rem;
+    }
+
+    .dna-review-wait__chip {
+        white-space: nowrap;
+    }
+
+    .dna-review-wait__hint {
+        margin: 0.55rem 0 0;
+        font-size: 0.86rem;
+        color: var(--dna-text-muted, #64748b);
+        line-height: 1.4;
+    }
+
+    .dna-review-wait--neutral { --dna-review-accent: #94a3b8; }
+    .dna-review-wait--primary { --dna-review-accent: #6366f1; }
+    .dna-review-wait--info { --dna-review-accent: #0ea5e9; }
+    .dna-review-wait--success { --dna-review-accent: #16a34a; }
+    .dna-review-wait--warning { --dna-review-accent: #ea580c; }
+    .dna-review-wait--danger { --dna-review-accent: #dc2626; }
+</style>

@@ -1,0 +1,40 @@
+<section class="dna-filter-toolbar" aria-label="@AriaLabel">
+    @foreach (var filter in Filters)
+    {
+        <label>
+            <span>@filter.Label</span>
+            <select value="@filter.SelectedValue" @onchange="args => OnSelectionChanged(filter, args)">
+                @foreach (var option in filter.Options)
+                {
+                    <option value="@option.Value">@option.Label</option>
+                }
+            </select>
+        </label>
+    }
+    @if (Actions is not null)
+    {
+        <div class="dna-filter-toolbar__actions">
+            @Actions
+        </div>
+    }
+</section>
+
+@code {
+    [Parameter]
+    public string AriaLabel { get; set; } = "Dashboard filters";
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<FilterDescriptor> Filters { get; set; } = Array.Empty<FilterDescriptor>();
+
+    [Parameter]
+    public EventCallback<FilterDescriptor> FilterChanged { get; set; }
+
+    [Parameter]
+    public RenderFragment? Actions { get; set; }
+
+    private Task OnSelectionChanged(FilterDescriptor filter, ChangeEventArgs args)
+    {
+        var updated = filter with { SelectedValue = args.Value?.ToString() };
+        return FilterChanged.InvokeAsync(updated);
+    }
+}

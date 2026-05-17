@@ -1,0 +1,87 @@
+@using System.Text.Json
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+
+<PanelCard Title="@Title" SubTitle="@SubTitle">
+    <div id="@_containerId" class="dna-echarts-host" style="height:@Height;width:100%;min-height:240px;"></div>
+</PanelCard>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? SubTitle { get; set; }
+
+    /// <summary>
+    /// Full ECharts option object as JSON (see https://echarts.apache.org/en/option.html).
+    /// </summary>
+    [Parameter, EditorRequired]
+    public string OptionJson { get; set; } = "{}";
+
+    [Parameter]
+    public string Height { get; set; } = "380px";
+
+    /// <summary>
+    /// When set, GeoJSON is fetched and <see cref="EChartsMapRegistration.MapName"/> is registered before <see cref="OptionJson"/> is applied (choropleth / geo maps).
+    /// </summary>
+    [Parameter]
+    public EChartsMapRegistration? MapRegistration { get; set; }
+
+    private readonly string _containerId = $"dna-echarts-{Guid.NewGuid():N}";
+    private string? _lastRenderedSignature;
+    private bool _pendingRender;
+
+    protected override void OnParametersSet()
+    {
+        var sig = $"{OptionJson}|{MapRegistration?.MapName}|{MapRegistration?.GeoJsonWebRelativePath}";
+        if (!string.Equals(_lastRenderedSignature, sig, StringComparison.Ordinal))
+        {
+            _pendingRender = true;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!_pendingRender)
+        {
+            return;
+        }
+
+        _pendingRender = false;
+        var sig = $"{OptionJson}|{MapRegistration?.MapName}|{MapRegistration?.GeoJsonWebRelativePath}";
+        _lastRenderedSignature = sig;
+
+        string? mapJson = null;
+        if (MapRegistration is not null)
+        {
+            var url = Navigation.ToAbsoluteUri(MapRegistration.GeoJsonWebRelativePath).ToString();
+            mapJson = JsonSerializer.Serialize(
+                new MapInterop(MapRegistration.MapName, url),
+                new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+        }
+
+        await JS.InvokeVoidAsync("dnaEchartsInterop.render", _containerId, OptionJson, mapJson);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("dnaEchartsInterop.dispose", _containerId);
+        }
+        catch (JSDisconnectedException)
+        {
+            // Circuit gone
+        }
+    }
+
+    private sealed record MapInterop(string Name, string GeoJsonUrl);
+
+    /// <summary>Map registration for choropleth/geo: vendored GeoJSON is fetched once per map name.</summary>
+    /// <param name="MapName">Passed to <c>echarts.registerMap</c> (must match <c>series.map</c>).</param>
+    /// <param name="GeoJsonWebRelativePath">Site-relative URI (e.g. <c>_content/DotNetAgents.Ui.Blazor/js/world.json</c>).</param>
+    public sealed record EChartsMapRegistration(string MapName, string GeoJsonWebRelativePath);
+}

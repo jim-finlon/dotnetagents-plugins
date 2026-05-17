@@ -1,0 +1,16 @@
+<section class="dna-dashboard-grid">
+    <div class="dna-dashboard-grid__main">
+        @MainContent
+    </div>
+    <aside class="dna-dashboard-grid__rail">
+        @RailContent
+    </aside>
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment MainContent { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public RenderFragment RailContent { get; set; } = default!;
+}

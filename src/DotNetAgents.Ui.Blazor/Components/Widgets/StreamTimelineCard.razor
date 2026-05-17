@@ -1,0 +1,68 @@
+<PanelCard Title="@Title" SubTitle="@SubTitle">
+    <div class="dna-stream-timeline__header">
+        <StatusBadge Label="@ConnectionLabel" Intent="@ConnectionIntent" />
+        @if (State.LastUpdatedUtc.HasValue)
+        {
+            <span class="dna-stream-timeline__timestamp">Updated @State.LastUpdatedUtc.Value.LocalDateTime.ToString("g")</span>
+        }
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(State.Message))
+    {
+        <p class="dna-stream-timeline__message">@State.Message</p>
+    }
+
+    @if (Events.Count == 0)
+    {
+        <p class="dna-stream-timeline__empty">No events yet.</p>
+    }
+    else
+    {
+        <ul class="dna-stream-timeline">
+            @foreach (var streamEvent in Events.OrderByDescending(static evt => evt.Timestamp).Take(MaxItems))
+            {
+                <li>
+                    <span class="dna-stream-timeline__dot dna-intent-@streamEvent.Intent.ToString().ToLowerInvariant()"></span>
+                    <div>
+                        <p class="dna-stream-timeline__title">@streamEvent.Title</p>
+                        <p class="dna-stream-timeline__summary">@streamEvent.Summary</p>
+                        <p class="dna-stream-timeline__meta">@streamEvent.Source · @streamEvent.Timestamp.LocalDateTime.ToString("t")</p>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+</PanelCard>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? SubTitle { get; set; }
+
+    [Parameter]
+    public int MaxItems { get; set; } = 10;
+
+    [Parameter, EditorRequired]
+    public StreamWidgetState State { get; set; } = new(StreamConnectionState.Disconnected);
+
+    [Parameter]
+    public IReadOnlyList<StreamEventModel> Events { get; set; } = Array.Empty<StreamEventModel>();
+
+    private string ConnectionLabel => State.ConnectionState switch
+    {
+        StreamConnectionState.Connected => "Live",
+        StreamConnectionState.Connecting => "Connecting",
+        StreamConnectionState.Reconnecting => "Reconnecting",
+        _ => "Offline"
+    };
+
+    private UiIntent ConnectionIntent => State.ConnectionState switch
+    {
+        StreamConnectionState.Connected => UiIntent.Success,
+        StreamConnectionState.Connecting => UiIntent.Info,
+        StreamConnectionState.Reconnecting => UiIntent.Warning,
+        _ => UiIntent.Danger
+    };
+}

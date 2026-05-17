@@ -1,0 +1,25 @@
+<article class="dna-kpi-card dna-intent-@Model.Intent.ToString().ToLowerInvariant()">
+    <p class="dna-kpi-card__label">@Model.Label</p>
+    <p class="dna-kpi-card__value">@Model.Value</p>
+    @if (!string.IsNullOrWhiteSpace(Model.SubLabel))
+    {
+        <p class="dna-kpi-card__sub-label">@Model.SubLabel</p>
+    }
+    @if (Model.DeltaPercent.HasValue)
+    {
+        var deltaClass = Model.Trend switch
+        {
+            TrendDirection.Up => "dna-kpi-card__delta--up",
+            TrendDirection.Down => "dna-kpi-card__delta--down",
+            _ => "dna-kpi-card__delta--flat"
+        };
+        <p class="dna-kpi-card__delta @deltaClass">
+            @(Model.DeltaPercent.Value > 0 ? "+" : string.Empty)@Model.DeltaPercent.Value.ToString("0.##")%
+        </p>
+    }
+</article>
+
+@code {
+    [Parameter, EditorRequired]
+    public KpiWidgetModel Model { get; set; } = default!;
+}

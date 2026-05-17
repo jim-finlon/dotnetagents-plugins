@@ -25,6 +25,7 @@ DotNetAgents.Storage.Agents.PostgreSQL
 DotNetAgents.Storage.TaskKnowledge.PostgreSQL
 DotNetAgents.Storage.TaskKnowledge.SqlServer
 DotNetAgents.Ui.Avalonia
+DotNetAgents.Ui.Blazor
 DotNetAgents.Ui.Core
 DotNetAgents.VectorStores.Chroma
 DotNetAgents.VectorStores.Conformance

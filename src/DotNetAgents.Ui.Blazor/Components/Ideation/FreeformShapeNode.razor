@@ -1,0 +1,19 @@
+@using DotNetAgents.Ui.Core.Ideation
+
+<article class="dna-ideation-node dna-ideation-node--shape" style="@PositionStyle">
+    <header>
+        <span>Freeform shape</span>
+        <button type="button" @onclick="DeleteAsync" aria-label="Delete freeform shape">×</button>
+    </header>
+    <strong>@Node.Title</strong>
+    <p>@Node.PayloadJson</p>
+</article>
+
+@code {
+    [Parameter, EditorRequired] public IdeationNode Node { get; set; } = default!;
+    [Parameter] public EventCallback<IdeationNode> OnUpdateNode { get; set; }
+    [Parameter] public EventCallback<string> OnDeleteNode { get; set; }
+
+    private string PositionStyle => $"left:{Node.Position.X:0}px; top:{Node.Position.Y:0}px; z-index:{Node.Position.ZIndex};";
+    private Task DeleteAsync() => OnDeleteNode.InvokeAsync(Node.NodeId);
+}
