@@ -1123,9 +1123,7 @@ body,
 }
 
 
-/* Portal navigation breadcrumb — every downstream DNA Blazor UI mounts this in
-   its topbar so operators always have a one-click path back to http://tyr/.
-   Story e719eac2. */
+/* Portal navigation breadcrumb mounted by downstream Blazor hosts. */
 .dna-portal-nav {
     display: inline-flex;
     align-items: center;

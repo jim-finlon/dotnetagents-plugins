@@ -3,13 +3,13 @@ using Microsoft.Extensions.Configuration;
 namespace DotNetAgents.Ui.Blazor.Components.Layout;
 
 /// <summary>
-/// Resolution rules for the Prime Pulse portal root URL referenced by downstream
-/// Blazor UIs' <c>PortalNav</c> breadcrumb. Per-service dashboard registries live in
-/// <c>DotNetAgents.Ui.Blazor.PrivateFactory</c> (story <c>8ba843e2</c>).
+/// Resolution rules for the host portal root URL referenced by downstream
+/// Blazor UIs' <c>PortalNav</c> breadcrumb. Service-specific dashboard
+/// registries live outside the shared UI package.
 /// </summary>
 public static class PortalNavConfig
 {
-    public const string DefaultPortalRootUrl = "http://tyr/";
+    public const string DefaultPortalRootUrl = "/";
     public const string PortalRootUrlConfigKey = "Portal:RootUrl";
 
     /// <summary>

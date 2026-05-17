@@ -5,10 +5,10 @@
 <nav class="dna-portal-nav" aria-label="Portal navigation">
     <a class="dna-portal-nav__brand"
        href="@ResolvedPortalRootUrl"
-       title="Back to Prime Pulse"
-       aria-label="Back to Prime Pulse — DNA operator portal">
+       title="Back to portal"
+       aria-label="Back to host portal">
         <span class="dna-portal-nav__back" aria-hidden="true">←</span>
-        <span class="dna-portal-nav__brand-label">Prime Pulse</span>
+        <span class="dna-portal-nav__brand-label">Portal</span>
     </a>
     <span class="dna-portal-nav__separator" aria-hidden="true">/</span>
     <span class="dna-portal-nav__current">@ServiceName</span>
@@ -32,7 +32,7 @@
 
     /// <summary>
     /// Optional override for the portal root URL. When omitted, falls back to the
-    /// `Portal:RootUrl` configuration key, then to <c>http://tyr/</c>.
+    /// `Portal:RootUrl` configuration key, then to the application root.
     /// </summary>
     [Parameter]
     public string? PortalRootUrl { get; set; }

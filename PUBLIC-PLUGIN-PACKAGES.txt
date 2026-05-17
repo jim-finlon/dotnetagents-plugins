@@ -10,7 +10,6 @@ DotNetAgents.ComputerUse
 DotNetAgents.ComputerUse.Playwright
 DotNetAgents.ComputerUse.Vision
 DotNetAgents.ComputerUse.Windows
-DotNetAgents.Credentials.Client
 DotNetAgents.Database.AI
 DotNetAgents.Database.Abstractions
 DotNetAgents.Database.Analysis
