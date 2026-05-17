@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <RootNamespace>DotNetAgents.ComputerUse.Vision</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <Description>Vision-based screen element detection for Computer Use (uses IMultiModalModel). CU-3.3.</Description>
+    <PackageTags>DotNetAgents;computer-use;vision</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetAgents.ComputerUse\DotNetAgents.ComputerUse.csproj" />
+    </ItemGroup>
+
+<ItemGroup><PackageReference Include="DotNetAgents.MultiModal" Version="1.0.0" /></ItemGroup></Project>

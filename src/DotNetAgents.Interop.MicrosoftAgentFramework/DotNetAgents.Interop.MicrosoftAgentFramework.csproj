@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>13</LangVersion>
+    <RootNamespace>DotNetAgents.Interop.MicrosoftAgentFramework</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <Description>Microsoft Agent Framework (MAF) interop contract for DotNetAgents. Story 68eb40ff (Phase 2B). Lightweight bridge contracts so DNA can be invoked from MAF orchestrators and call MAF agents — without coupling DotNetAgents to a specific MAF NuGet version.</Description>
+    <PackageTags>DotNetAgents;Microsoft.Agents.AI;maf;cross-vendor-interop;A2A</PackageTags>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup><PackageReference Include="DotNetAgents.A2A" Version="1.0.0" /><PackageReference Include="DotNetAgents.A2A.Client" Version="1.0.0" /></ItemGroup></Project>

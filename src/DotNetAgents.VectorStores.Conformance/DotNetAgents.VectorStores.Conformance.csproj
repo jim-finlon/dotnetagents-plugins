@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>13</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <Description>Shared xUnit conformance fixtures for DNA IVectorStore backends. Backend test projects inherit VectorStoreConformanceTests&lt;TStore&gt; to get a standard assertion suite (upsert/search roundtrip, similarity ordering, topK, metadata filtering, delete semantics) without scaffolding bespoke tests. Pattern mirrors DotNetAgents.Mcp.Conformance.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.9.3" />
+  </ItemGroup>
+
+  <ItemGroup><PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" /></ItemGroup></Project>

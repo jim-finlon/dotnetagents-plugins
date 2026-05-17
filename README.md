@@ -1,5 +1,26 @@
-# DotNetAgents Plugins
+# DotNetAgents Public Plugins
 
-Open-source plugin packs and extension points for DotNetAgents. Premium/private plugins live in separate private repositories.
+This repository contains optional DotNetAgents plugin packages that extend the
+public core with messaging, browser automation, computer-use, database,
+vector-store, storage, multimodal, UI primitives, and interoperability
+integrations.
 
-This public repository is intentionally born with fresh history from the LAN Forgejo source of truth. Private workspace history and premium/private platform code are not part of this repository.
+These packages are split from the internal development workspace through an
+audited open-core staging process. Private factory, premium product,
+commercially licensed UI assets, and operator-specific integrations are
+intentionally not included here.
+
+## Build
+
+Restore and build the solution with the matching public DotNetAgents core
+packages available from your NuGet sources:
+
+```bash
+dotnet restore DotNetAgents.Plugins.sln
+dotnet build DotNetAgents.Plugins.sln --no-restore
+```
+
+## Package List
+
+`PUBLIC-PLUGIN-PACKAGES.txt` records the packages included in this public
+plugin snapshot.

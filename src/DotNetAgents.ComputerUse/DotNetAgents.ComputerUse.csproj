@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <RootNamespace>DotNetAgents.ComputerUse</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <Description>Computer use and browser automation: screen capture, input injection, browser agent. FR-CU-001 to FR-CU-003.</Description>
+    <PackageTags>DotNetAgents;AI;computer-use;browser;automation</PackageTags>
+  </PropertyGroup>
+
+  <!-- No external deps; Playwright/OS impl in separate packages. -->
+
+</Project>
