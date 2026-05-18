@@ -1,15 +1,5 @@
 bin/
 obj/
 .vs/
-.idea/
-*.user
-*.suo
-node_modules/
-dist/
-build/
-coverage/
-.env
-.env.*
-!.env.example
-.DS_Store
-Thumbs.db
+TestResults/
+artifacts/

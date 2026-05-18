@@ -1,5 +1,10 @@
 # DotNetAgents Public Plugins
 
-Public provider, vector-store, storage, observability, UI, and tool integrations for DotNetAgents.
+This is a private staging snapshot for the future public DotNetAgents plugins
+repository. It contains packages classified as public-plugin in the open-core
+inventory and is used for audit before content is copied into the public plugin
+repo.
 
-This repository is generated from the audited public-plugin staging snapshot in `dna-workspace`. Do not add private DNA factory code, internal LAN coordinates, commercial vendor assets, secrets, or premium/private implementations here.
+Do not push this staging tree directly to a public remote. Run the package graph
+scanner, public-content audit, license/header checks, and operator approval gate
+first.

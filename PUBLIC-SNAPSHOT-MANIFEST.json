@@ -1,0 +1,368 @@
+{
+  "buildDeferredPublicPluginPackages": [],
+  "category": "public-plugin",
+  "convertedPublicCoreProjectReferences": [
+    {
+      "include": "../DotNetAgents.Agents.Messaging/DotNetAgents.Agents.Messaging.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Agents.Messaging.Kafka",
+      "target": "DotNetAgents.Agents.Messaging"
+    },
+    {
+      "include": "../DotNetAgents.Agents.Registry/DotNetAgents.Agents.Registry.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Agents.Messaging.Kafka",
+      "target": "DotNetAgents.Agents.Registry"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Agents.Messaging.Kafka",
+      "target": "DotNetAgents.Ecosystem"
+    },
+    {
+      "include": "../DotNetAgents.Agents.Messaging/DotNetAgents.Agents.Messaging.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Agents.Messaging.RabbitMQ",
+      "target": "DotNetAgents.Agents.Messaging"
+    },
+    {
+      "include": "../DotNetAgents.Agents.Registry/DotNetAgents.Agents.Registry.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Agents.Messaging.RabbitMQ",
+      "target": "DotNetAgents.Agents.Registry"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Agents.Messaging.RabbitMQ",
+      "target": "DotNetAgents.Ecosystem"
+    },
+    {
+      "include": "../DotNetAgents.Agents.Messaging/DotNetAgents.Agents.Messaging.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Agents.Messaging.Redis",
+      "target": "DotNetAgents.Agents.Messaging"
+    },
+    {
+      "include": "../DotNetAgents.Agents.Registry/DotNetAgents.Agents.Registry.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Agents.Messaging.Redis",
+      "target": "DotNetAgents.Agents.Registry"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Agents.Messaging.Redis",
+      "target": "DotNetAgents.Ecosystem"
+    },
+    {
+      "include": "../DotNetAgents.Agents.Messaging/DotNetAgents.Agents.Messaging.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Agents.Messaging.SignalR",
+      "target": "DotNetAgents.Agents.Messaging"
+    },
+    {
+      "include": "../DotNetAgents.Agents.Registry/DotNetAgents.Agents.Registry.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Agents.Messaging.SignalR",
+      "target": "DotNetAgents.Agents.Registry"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Agents.Messaging.SignalR",
+      "target": "DotNetAgents.Ecosystem"
+    },
+    {
+      "include": "../DotNetAgents.Abstractions/DotNetAgents.Abstractions.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Browser.Tools",
+      "target": "DotNetAgents.Abstractions"
+    },
+    {
+      "include": "../DotNetAgents.MultiModal/DotNetAgents.MultiModal.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.ComputerUse.Vision",
+      "target": "DotNetAgents.MultiModal"
+    },
+    {
+      "include": "../DotNetAgents.Abstractions/DotNetAgents.Abstractions.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Database.AI",
+      "target": "DotNetAgents.Abstractions"
+    },
+    {
+      "include": "../DotNetAgents.Core/DotNetAgents.Core.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Database.Dialects",
+      "target": "DotNetAgents.Core"
+    },
+    {
+      "include": "../DotNetAgents.Security/DotNetAgents.Security.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Database.Security",
+      "target": "DotNetAgents.Security"
+    },
+    {
+      "include": "../DotNetAgents.A2A/DotNetAgents.A2A.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Interop.MicrosoftAgentFramework",
+      "target": "DotNetAgents.A2A"
+    },
+    {
+      "include": "../DotNetAgents.A2A.Client/DotNetAgents.A2A.Client.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Interop.MicrosoftAgentFramework",
+      "target": "DotNetAgents.A2A.Client"
+    },
+    {
+      "include": "../DotNetAgents.Abstractions/DotNetAgents.Abstractions.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.MultiModal.OpenAI",
+      "target": "DotNetAgents.Abstractions"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.MultiModal.OpenAI",
+      "target": "DotNetAgents.Ecosystem"
+    },
+    {
+      "include": "../DotNetAgents.MultiModal/DotNetAgents.MultiModal.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.MultiModal.OpenAI",
+      "target": "DotNetAgents.MultiModal"
+    },
+    {
+      "include": "../DotNetAgents.Abstractions/DotNetAgents.Abstractions.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.Agents.PostgreSQL",
+      "target": "DotNetAgents.Abstractions"
+    },
+    {
+      "include": "../DotNetAgents.Agents.Registry/DotNetAgents.Agents.Registry.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.Agents.PostgreSQL",
+      "target": "DotNetAgents.Agents.Registry"
+    },
+    {
+      "include": "../DotNetAgents.Agents.Tasks/DotNetAgents.Agents.Tasks.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.Agents.PostgreSQL",
+      "target": "DotNetAgents.Agents.Tasks"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.Agents.PostgreSQL",
+      "target": "DotNetAgents.Ecosystem"
+    },
+    {
+      "include": "../DotNetAgents.Workflow/DotNetAgents.Workflow.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.PostgreSQL",
+      "target": "DotNetAgents.Workflow"
+    },
+    {
+      "include": "../DotNetAgents.Tasks/DotNetAgents.Tasks.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.PostgreSQL",
+      "target": "DotNetAgents.Tasks"
+    },
+    {
+      "include": "../DotNetAgents.Knowledge/DotNetAgents.Knowledge.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.PostgreSQL",
+      "target": "DotNetAgents.Knowledge"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.PostgreSQL",
+      "target": "DotNetAgents.Ecosystem"
+    },
+    {
+      "include": "../DotNetAgents.Workflow/DotNetAgents.Workflow.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.SqlServer",
+      "target": "DotNetAgents.Workflow"
+    },
+    {
+      "include": "../DotNetAgents.Tasks/DotNetAgents.Tasks.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.SqlServer",
+      "target": "DotNetAgents.Tasks"
+    },
+    {
+      "include": "../DotNetAgents.Knowledge/DotNetAgents.Knowledge.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.SqlServer",
+      "target": "DotNetAgents.Knowledge"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.SqlServer",
+      "target": "DotNetAgents.Ecosystem"
+    },
+    {
+      "include": "../DotNetAgents.Abstractions/DotNetAgents.Abstractions.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Tools.Database",
+      "target": "DotNetAgents.Abstractions"
+    },
+    {
+      "include": "../DotNetAgents.Abstractions/DotNetAgents.Abstractions.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.VectorStores.Chroma",
+      "target": "DotNetAgents.Abstractions"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.VectorStores.Chroma",
+      "target": "DotNetAgents.Ecosystem"
+    },
+    {
+      "include": "../DotNetAgents.Abstractions/DotNetAgents.Abstractions.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.VectorStores.Conformance",
+      "target": "DotNetAgents.Abstractions"
+    },
+    {
+      "include": "../DotNetAgents.Abstractions/DotNetAgents.Abstractions.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.VectorStores.Pinecone",
+      "target": "DotNetAgents.Abstractions"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.VectorStores.Pinecone",
+      "target": "DotNetAgents.Ecosystem"
+    },
+    {
+      "include": "../DotNetAgents.Abstractions/DotNetAgents.Abstractions.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.VectorStores.PostgreSQL",
+      "target": "DotNetAgents.Abstractions"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.VectorStores.PostgreSQL",
+      "target": "DotNetAgents.Ecosystem"
+    },
+    {
+      "include": "../DotNetAgents.Abstractions/DotNetAgents.Abstractions.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.VectorStores.Qdrant",
+      "target": "DotNetAgents.Abstractions"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.VectorStores.Qdrant",
+      "target": "DotNetAgents.Ecosystem"
+    },
+    {
+      "include": "../DotNetAgents.Abstractions/DotNetAgents.Abstractions.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.VectorStores.Weaviate",
+      "target": "DotNetAgents.Abstractions"
+    },
+    {
+      "include": "../DotNetAgents.Ecosystem/DotNetAgents.Ecosystem.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.VectorStores.Weaviate",
+      "target": "DotNetAgents.Ecosystem"
+    }
+  ],
+  "notes": [
+    "Private staging snapshot only.",
+    "Public-core project references are converted to PackageReference entries so the plugin repo consumes the public core as packages.",
+    "Premium-plugin, private-factory, hosted-paas, and internal-only packages are intentionally excluded.",
+    "Removed ProjectReference edges must be replaced by package references, public abstractions, or package splits before final public release if source compilation requires them."
+  ],
+  "packageCount": 35,
+  "packages": [
+    "DotNetAgents.Agents.Messaging.Kafka",
+    "DotNetAgents.Agents.Messaging.RabbitMQ",
+    "DotNetAgents.Agents.Messaging.Redis",
+    "DotNetAgents.Agents.Messaging.SignalR",
+    "DotNetAgents.Browser.Tools",
+    "DotNetAgents.CodeAction",
+    "DotNetAgents.CodeAction.Docker",
+    "DotNetAgents.CodeAction.Pyodide",
+    "DotNetAgents.ComputerUse",
+    "DotNetAgents.ComputerUse.Playwright",
+    "DotNetAgents.ComputerUse.Vision",
+    "DotNetAgents.ComputerUse.Windows",
+    "DotNetAgents.Database.AI",
+    "DotNetAgents.Database.Abstractions",
+    "DotNetAgents.Database.Analysis",
+    "DotNetAgents.Database.Dialects",
+    "DotNetAgents.Database.Orchestration",
+    "DotNetAgents.Database.Security",
+    "DotNetAgents.Database.SqlServer.Tooling",
+    "DotNetAgents.Database.Validation",
+    "DotNetAgents.Interop.MicrosoftAgentFramework",
+    "DotNetAgents.MultiModal.OpenAI",
+    "DotNetAgents.Storage.Agents.PostgreSQL",
+    "DotNetAgents.Storage.TaskKnowledge.PostgreSQL",
+    "DotNetAgents.Storage.TaskKnowledge.SqlServer",
+    "DotNetAgents.Tools.Database",
+    "DotNetAgents.Ui.Avalonia",
+    "DotNetAgents.Ui.Blazor",
+    "DotNetAgents.Ui.Core",
+    "DotNetAgents.VectorStores.Chroma",
+    "DotNetAgents.VectorStores.Conformance",
+    "DotNetAgents.VectorStores.Pinecone",
+    "DotNetAgents.VectorStores.PostgreSQL",
+    "DotNetAgents.VectorStores.Qdrant",
+    "DotNetAgents.VectorStores.Weaviate"
+  ],
+  "removedProjectReferences": [
+    {
+      "include": "../../Directory.Build.props",
+      "reason": "unclassified-or-outside-public-root",
+      "source": "DotNetAgents.Database.AI",
+      "target": "Directory.Build"
+    },
+    {
+      "include": "../../Directory.Build.props",
+      "reason": "unclassified-or-outside-public-root",
+      "source": "DotNetAgents.Database.Abstractions",
+      "target": "Directory.Build"
+    },
+    {
+      "include": "../../Directory.Build.props",
+      "reason": "unclassified-or-outside-public-root",
+      "source": "DotNetAgents.Database.Analysis",
+      "target": "Directory.Build"
+    },
+    {
+      "include": "../../Directory.Build.props",
+      "reason": "unclassified-or-outside-public-root",
+      "source": "DotNetAgents.Database.Orchestration",
+      "target": "Directory.Build"
+    },
+    {
+      "include": "../../Directory.Build.props",
+      "reason": "unclassified-or-outside-public-root",
+      "source": "DotNetAgents.Database.Security",
+      "target": "Directory.Build"
+    },
+    {
+      "include": "../../Directory.Build.props",
+      "reason": "unclassified-or-outside-public-root",
+      "source": "DotNetAgents.Database.Validation",
+      "target": "Directory.Build"
+    }
+  ],
+  "schemaVersion": 1,
+  "sourceInventory": "docs/architecture/OPEN-CORE-INVENTORY.md",
+  "sourceRoot": "DotNetAgents/src",
+  "stagingRoot": "staging/public-dotnetagents-plugins"
+}
