@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <LangVersion>13</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsTestProject>false</IsTestProject>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <Description>Shared xUnit conformance fixtures for DNA IVectorStore backends. Backend test projects inherit VectorStoreConformanceTests&lt;TStore&gt; to get a standard assertion suite (upsert/search roundtrip, similarity ordering, topK, metadata filtering, delete semantics) without scaffolding bespoke tests. Pattern mirrors DotNetAgents.Mcp.Conformance.</Description>
   </PropertyGroup>
@@ -15,4 +16,8 @@
     <PackageReference Include="xunit" Version="2.9.3" />
   </ItemGroup>
 
-  <ItemGroup><PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" /></ItemGroup></Project>
+  <ItemGroup>
+    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
+  </ItemGroup>
+
+<ItemGroup><PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" /></ItemGroup></Project>

@@ -13,6 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
+    <PackageReference Include="DotNetAgents.Agents.Registry" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Agents.Registry\DotNetAgents.Agents.Registry.csproj')" />
+    <PackageReference Include="DotNetAgents.Agents.Tasks" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Agents.Tasks\DotNetAgents.Agents.Tasks.csproj')" />
+    <PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Ecosystem\DotNetAgents.Ecosystem.csproj')" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Npgsql" Version="9.0.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.5" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.5" />

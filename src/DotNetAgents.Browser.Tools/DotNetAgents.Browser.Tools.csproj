@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
     <ProjectReference Include="..\DotNetAgents.ComputerUse\DotNetAgents.ComputerUse.csproj" />
   </ItemGroup>
 

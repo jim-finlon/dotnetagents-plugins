@@ -11,6 +11,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
+    <PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Ecosystem\DotNetAgents.Ecosystem.csproj')" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.5" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.5" />
     <PackageReference Include="System.Text.Json" Version="10.0.5" />

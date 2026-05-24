@@ -9,7 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetAgents.Security" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Security\DotNetAgents.Security.csproj')" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.5" />
   </ItemGroup>
 
-  <ItemGroup><PackageReference Include="DotNetAgents.Security" Version="1.0.0" /></ItemGroup></Project>
+  <ItemGroup>
+    <PackageReference Include="Directory.Build" Version="1.0.0" Condition="!Exists('..\..\Directory.Build.props')" />
+  </ItemGroup>
+
+<ItemGroup><PackageReference Include="DotNetAgents.Security" Version="1.0.0" /></ItemGroup></Project>

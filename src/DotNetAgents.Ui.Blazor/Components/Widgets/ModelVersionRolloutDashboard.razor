@@ -1,0 +1,198 @@
+@namespace DotNetAgents.Ui.Blazor.Components.Widgets
+@using DotNetAgents.Ui.Core
+
+<section class="dna-rollout-dashboard" aria-label="Model-version rollout dashboard">
+    <div class="dna-rollout-dashboard__summary">
+        <KpiCard Model="@(new KpiWidgetModel("active-rollouts", "Active rollouts", Model.ActiveRollouts.Count.ToString(), Intent: UiIntent.Primary))" />
+        <KpiCard Model="@(new KpiWidgetModel("decision-events", "Decision events", Model.RecentDecisions.Count.ToString(), Intent: UiIntent.Info))" />
+        <KpiCard Model="@(new KpiWidgetModel("data-source", "Data source", Model.DataSourceRef, Intent: UiIntent.Neutral))" />
+    </div>
+
+    <PanelCard Title="In-flight rollout state" SubTitle="Stage, dwell, sampling, deltas, watchdog posture, and next decision time.">
+        @if (Model.ActiveRollouts.Count == 0)
+        {
+            <p class="dna-rollout-dashboard__empty" data-testid="rollout-empty">No model versions are currently in a non-prime stage.</p>
+        }
+        else
+        {
+            <div class="dna-rollout-dashboard__table" role="table" aria-label="In-flight model-version rollouts">
+                <div class="dna-rollout-dashboard__head" role="row">
+                    <span role="columnheader">Version</span>
+                    <span role="columnheader">Stage</span>
+                    <span role="columnheader">Dwell</span>
+                    <span role="columnheader">Samples</span>
+                    <span role="columnheader">Score</span>
+                    <span role="columnheader">Errors</span>
+                    <span role="columnheader">Watchdog</span>
+                    <span role="columnheader">Next</span>
+                    <span role="columnheader">Controls</span>
+                </div>
+                @foreach (var row in Model.ActiveRollouts)
+                {
+                    <div class="dna-rollout-dashboard__row" role="row" data-testid="@($"rollout-{row.ModelVersionId}")">
+                        <span role="cell">
+                            <strong>@row.DisplayName</strong>
+                            <small>@row.ModelVersionId</small>
+                        </span>
+                        <span role="cell"><StatusBadge Label="@row.CurrentStage" Intent="@StageIntent(row)" /></span>
+                        <span role="cell">@FormatDuration(row.DwellRemaining)</span>
+                        <span role="cell">@row.SamplesObserved / @row.MinSamples</span>
+                        <span role="cell"><StatusBadge Label="@FormatDelta(row.ScorecardDelta)" Intent="@ModelVersionRolloutIntent.FromDelta(row.ScorecardDelta)" /></span>
+                        <span role="cell"><StatusBadge Label="@FormatDelta(row.ErrorRateDelta)" Intent="@ModelVersionRolloutIntent.FromDelta(row.ErrorRateDelta, lowerIsBetter: true)" /></span>
+                        <span role="cell"><StatusBadge Label="@(row.WatchdogEnabled ? "Enabled" : "Disabled")" Intent="@(row.WatchdogEnabled ? UiIntent.Success : UiIntent.Warning)" /></span>
+                        <span role="cell">@row.NextDecisionAtUtc.LocalDateTime.ToString("g")</span>
+                        <span role="cell" class="dna-rollout-dashboard__controls">
+                            <label>
+                                <span>Reason</span>
+                                <input value="@ReasonFor(row.ModelVersionId)"
+                                       @onchange="eventArgs => SetReason(row.ModelVersionId, eventArgs.Value?.ToString())"
+                                       aria-label="@($"Override reason for {row.DisplayName}")"
+                                       disabled="@(!CanOverride)" />
+                            </label>
+                            <label>
+                                <span>Target</span>
+                                <select value="@TargetStageFor(row)"
+                                        @onchange="eventArgs => SetTargetStage(row.ModelVersionId, eventArgs.Value?.ToString())"
+                                        aria-label="@($"Target stage for {row.DisplayName}")"
+                                        disabled="@(!CanOverride)">
+                                    @foreach (var stage in StageOptions)
+                                    {
+                                        <option value="@stage">@stage</option>
+                                    }
+                                </select>
+                            </label>
+                            <label>
+                                <span>Score min</span>
+                                <input type="number"
+                                       step="0.001"
+                                       value="@ScoreThresholdFor(row.ModelVersionId)"
+                                       @onchange="eventArgs => SetScoreThreshold(row.ModelVersionId, eventArgs.Value?.ToString())"
+                                       aria-label="@($"Score threshold for {row.DisplayName}")"
+                                       disabled="@(!CanOverride)" />
+                            </label>
+                            <label>
+                                <span>Error max</span>
+                                <input type="number"
+                                       step="0.001"
+                                       value="@ErrorThresholdFor(row.ModelVersionId)"
+                                       @onchange="eventArgs => SetErrorThreshold(row.ModelVersionId, eventArgs.Value?.ToString())"
+                                       aria-label="@($"Error threshold for {row.DisplayName}")"
+                                       disabled="@(!CanOverride)" />
+                            </label>
+                            <button type="button" disabled="@(!CanOverride)" @onclick="() => Dispatch(row, ModelVersionRolloutCommandKind.Hold)">Hold</button>
+                            <button type="button" disabled="@(!CanOverride)" @onclick="() => Dispatch(row, ModelVersionRolloutCommandKind.SkipToNextStage)">Skip</button>
+                            <button type="button" disabled="@(!CanOverride)" @onclick="() => Dispatch(row, ModelVersionRolloutCommandKind.Abort)">Abort</button>
+                            <button type="button" disabled="@(!CanOverride)" @onclick="() => Dispatch(row, ModelVersionRolloutCommandKind.DisableWatchdog)">Watchdog</button>
+                            <button type="button" disabled="@(!CanOverride)" @onclick="() => Dispatch(row, ModelVersionRolloutCommandKind.SetThresholds)">Thresholds</button>
+                        </span>
+                    </div>
+                }
+            </div>
+        }
+    </PanelCard>
+
+    <PanelCard Title="Promotion-decision audit feed" SubTitle="Auto, watchdog, and review decisions for the visible rollout window.">
+        @if (Model.RecentDecisions.Count == 0)
+        {
+            <p class="dna-rollout-dashboard__empty" data-testid="decision-empty">No promotion decisions recorded.</p>
+        }
+        else
+        {
+            <ol class="dna-rollout-dashboard__feed">
+                @foreach (var item in Model.RecentDecisions)
+                {
+                    <li data-testid="@($"decision-{item.ModelVersionId}")">
+                        <time>@item.TimestampUtc.LocalDateTime.ToString("g")</time>
+                        <div>
+                            <strong>@item.ModelVersionId</strong>
+                            <span>@item.FromStage -> @item.ToStage</span>
+                        </div>
+                        <StatusBadge Label="@item.GateVerdict" Intent="@ModelVersionRolloutIntent.FromVerdict(item.GateVerdict)" />
+                        <small>@item.TriggeredBy · @item.ScorecardRef · @(item.Reason ?? "automatic")</small>
+                    </li>
+                }
+            </ol>
+        }
+    </PanelCard>
+</section>
+
+@code {
+    private static readonly string[] StageOptions = ["shadow", "canary-10", "canary-25", "canary-50", "prime"];
+    private readonly Dictionary<string, string> _errorThresholdsByModelVersionId = [];
+    private readonly Dictionary<string, string> _reasonsByModelVersionId = [];
+    private readonly Dictionary<string, string> _scoreThresholdsByModelVersionId = [];
+    private readonly Dictionary<string, string> _targetStagesByModelVersionId = [];
+
+    [Parameter, EditorRequired] public ModelVersionRolloutDashboardModel Model { get; set; } = default!;
+    [Parameter] public bool CanOverride { get; set; } = true;
+    [Parameter] public EventCallback<ModelVersionRolloutCommand> OnCommand { get; set; }
+
+    private Task Dispatch(ModelVersionRolloutRow row, ModelVersionRolloutCommandKind kind)
+    {
+        if (!CanOverride)
+            return Task.CompletedTask;
+
+        var targetStage = kind is ModelVersionRolloutCommandKind.SkipToNextStage
+            ? TargetStageFor(row)
+            : null;
+
+        return OnCommand.InvokeAsync(new ModelVersionRolloutCommand(
+            kind,
+            row.ModelVersionId,
+            targetStage,
+            BuildReason(row, kind)));
+    }
+
+    private string BuildReason(ModelVersionRolloutRow row, ModelVersionRolloutCommandKind kind)
+    {
+        var reason = ReasonFor(row.ModelVersionId);
+        if (string.IsNullOrWhiteSpace(reason))
+            reason = $"operator requested {kind} from rollout dashboard";
+
+        if (kind is not ModelVersionRolloutCommandKind.SetThresholds)
+            return reason;
+
+        return $"{reason}; score>={ScoreThresholdFor(row.ModelVersionId)}; error<={ErrorThresholdFor(row.ModelVersionId)}";
+    }
+
+    private string ReasonFor(string modelVersionId) =>
+        _reasonsByModelVersionId.TryGetValue(modelVersionId, out var reason) ? reason : string.Empty;
+
+    private void SetReason(string modelVersionId, string? reason) =>
+        _reasonsByModelVersionId[modelVersionId] = reason ?? string.Empty;
+
+    private string TargetStageFor(ModelVersionRolloutRow row)
+    {
+        if (_targetStagesByModelVersionId.TryGetValue(row.ModelVersionId, out var targetStage))
+            return targetStage;
+
+        var currentIndex = Array.FindIndex(StageOptions, stage => stage.Equals(row.CurrentStage, StringComparison.OrdinalIgnoreCase));
+        return currentIndex >= 0 && currentIndex + 1 < StageOptions.Length ? StageOptions[currentIndex + 1] : "prime";
+    }
+
+    private void SetTargetStage(string modelVersionId, string? targetStage) =>
+        _targetStagesByModelVersionId[modelVersionId] = string.IsNullOrWhiteSpace(targetStage) ? "prime" : targetStage;
+
+    private string ScoreThresholdFor(string modelVersionId) =>
+        _scoreThresholdsByModelVersionId.TryGetValue(modelVersionId, out var threshold) ? threshold : "0";
+
+    private void SetScoreThreshold(string modelVersionId, string? threshold) =>
+        _scoreThresholdsByModelVersionId[modelVersionId] = threshold ?? "0";
+
+    private string ErrorThresholdFor(string modelVersionId) =>
+        _errorThresholdsByModelVersionId.TryGetValue(modelVersionId, out var threshold) ? threshold : "0";
+
+    private void SetErrorThreshold(string modelVersionId, string? threshold) =>
+        _errorThresholdsByModelVersionId[modelVersionId] = threshold ?? "0";
+
+    private static UiIntent StageIntent(ModelVersionRolloutRow row) =>
+        row.Status.Equals("blocked", StringComparison.OrdinalIgnoreCase) ? UiIntent.Danger :
+        row.Status.Equals("held", StringComparison.OrdinalIgnoreCase) ? UiIntent.Warning :
+        UiIntent.Primary;
+
+    private static string FormatDuration(TimeSpan value) =>
+        value <= TimeSpan.Zero ? "ready" : value.TotalHours >= 1 ? $"{value.TotalHours:0.#}h" : $"{value.TotalMinutes:0}m";
+
+    private static string FormatDelta(double value) =>
+        value >= 0 ? $"+{value:0.###}" : value.ToString("0.###");
+}

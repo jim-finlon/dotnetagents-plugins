@@ -8,4 +8,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  </Project>
+  <ItemGroup>
+    <PackageReference Include="Directory.Build" Version="1.0.0" Condition="!Exists('..\..\Directory.Build.props')" />
+  </ItemGroup>
+
+</Project>

@@ -807,6 +807,7 @@ body,
     border: 1px solid var(--dna-border-muted);
     border-radius: var(--dna-radius-lg);
     box-shadow: var(--dna-shadow-sm);
+    min-width: 0;
     padding: 0.95rem 1rem;
 }
 
@@ -832,6 +833,7 @@ body,
     margin: 0.2rem 0 0.55rem;
     font-size: 0.83rem;
     color: var(--dna-text-secondary);
+    overflow-wrap: anywhere;
 }
 
 .dna-panel__body {
@@ -920,6 +922,7 @@ body,
 .dna-dashboard-grid__rail {
     display: grid;
     gap: 0.9rem;
+    min-width: 0;
 }
 
 .dna-trend-card svg {
@@ -1057,6 +1060,152 @@ body,
     min-height: 240px;
 }
 
+.dna-rollout-dashboard,
+.dna-rollout-dashboard__summary,
+.dna-rollout-dashboard__feed {
+    display: grid;
+    gap: 0.85rem;
+    min-width: 0;
+}
+
+.dna-rollout-dashboard__summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dna-rollout-dashboard__table {
+    display: grid;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.dna-rollout-dashboard__head,
+.dna-rollout-dashboard__row {
+    display: grid;
+    grid-template-columns: minmax(13rem, 1.35fr) minmax(6rem, 0.7fr) minmax(5rem, 0.55fr) minmax(6rem, 0.65fr) minmax(5rem, 0.55fr) minmax(5rem, 0.55fr) minmax(6rem, 0.65fr) minmax(8rem, 0.8fr) minmax(18rem, 1.4fr);
+    gap: 0.65rem;
+    align-items: center;
+    min-width: 78rem;
+}
+
+.dna-rollout-dashboard__head {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--dna-border-muted);
+    color: var(--dna-text-muted);
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.dna-rollout-dashboard__row {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--dna-border-muted);
+    color: var(--dna-text-secondary);
+    font-size: 0.85rem;
+}
+
+.dna-rollout-dashboard__row:last-child {
+    border-bottom: 0;
+}
+
+.dna-rollout-dashboard__row strong {
+    display: block;
+    color: var(--dna-text-primary);
+    font-size: 0.9rem;
+}
+
+.dna-rollout-dashboard__row small,
+.dna-rollout-dashboard__feed small,
+.dna-rollout-dashboard__empty {
+    color: var(--dna-text-muted);
+}
+
+.dna-rollout-dashboard__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: end;
+}
+
+.dna-rollout-dashboard__controls label {
+    display: grid;
+    gap: 0.15rem;
+    min-width: 5.5rem;
+    color: var(--dna-text-muted);
+    font-size: 0.67rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.dna-rollout-dashboard__controls input,
+.dna-rollout-dashboard__controls select {
+    min-height: 1.85rem;
+    border: 1px solid var(--dna-border-muted);
+    border-radius: 0.45rem;
+    padding: 0.2rem 0.35rem;
+    color: var(--dna-text-primary);
+    background: var(--dna-surface-card);
+    font-size: 0.76rem;
+}
+
+.dna-rollout-dashboard__controls input[aria-label^="Override"] {
+    min-width: 8rem;
+}
+
+.dna-rollout-dashboard__controls button {
+    border: 1px solid var(--dna-border-muted);
+    border-radius: 0.45rem;
+    padding: 0.25rem 0.45rem;
+    color: var(--dna-text-primary);
+    background: var(--dna-surface-card);
+    font-size: 0.75rem;
+}
+
+.dna-rollout-dashboard__controls button:hover,
+.dna-rollout-dashboard__controls button:focus-visible {
+    border-color: var(--dna-border-strong);
+}
+
+.dna-rollout-dashboard__controls button:disabled,
+.dna-rollout-dashboard__controls input:disabled,
+.dna-rollout-dashboard__controls select:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.dna-rollout-dashboard__feed {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dna-rollout-dashboard__feed li {
+    display: grid;
+    grid-template-columns: minmax(8rem, 0.8fr) minmax(12rem, 1fr) auto minmax(14rem, 1fr);
+    gap: 0.65rem;
+    align-items: center;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--dna-border-muted);
+}
+
+.dna-rollout-dashboard__feed li:last-child {
+    border-bottom: 0;
+}
+
+.dna-rollout-dashboard__feed time {
+    color: var(--dna-text-secondary);
+    font-size: 0.8rem;
+}
+
+.dna-rollout-dashboard__feed strong,
+.dna-rollout-dashboard__feed span {
+    display: block;
+}
+
+.dna-rollout-dashboard__feed strong {
+    color: var(--dna-text-primary);
+}
+
 @media (min-width: 1400px) {
     .dna-page-header {
         min-height: clamp(11.5rem, 15vw, 16.5rem);
@@ -1094,6 +1243,10 @@ body,
         grid-template-columns: 1fr;
     }
 
+    .dna-rollout-dashboard__summary {
+        grid-template-columns: 1fr;
+    }
+
     .dna-page-header {
         min-height: auto;
         padding-right: 1rem;
@@ -1119,6 +1272,10 @@ body,
 
     .dna-page-header__actions {
         width: 100%;
+    }
+
+    .dna-rollout-dashboard__feed li {
+        grid-template-columns: 1fr;
     }
 }
 

@@ -14,4 +14,9 @@
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 
-  <ItemGroup><PackageReference Include="DotNetAgents.A2A" Version="1.0.0" /><PackageReference Include="DotNetAgents.A2A.Client" Version="1.0.0" /></ItemGroup></Project>
+  <ItemGroup>
+    <PackageReference Include="DotNetAgents.A2A" Version="1.0.0" Condition="!Exists('..\DotNetAgents.A2A\DotNetAgents.A2A.csproj')" />
+    <PackageReference Include="DotNetAgents.A2A.Client" Version="1.0.0" Condition="!Exists('..\DotNetAgents.A2A.Client\DotNetAgents.A2A.Client.csproj')" />
+  </ItemGroup>
+
+<ItemGroup><PackageReference Include="DotNetAgents.A2A" Version="1.0.0" /><PackageReference Include="DotNetAgents.A2A.Client" Version="1.0.0" /></ItemGroup></Project>

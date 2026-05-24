@@ -159,6 +159,12 @@
       "target": "DotNetAgents.Ecosystem"
     },
     {
+      "include": "../DotNetAgents.Credentials.Client/DotNetAgents.Credentials.Client.csproj",
+      "reason": "public-core-package-reference",
+      "source": "DotNetAgents.Storage.ArtifactStore",
+      "target": "DotNetAgents.Credentials.Client"
+    },
+    {
       "include": "../DotNetAgents.Workflow/DotNetAgents.Workflow.csproj",
       "reason": "public-core-package-reference",
       "source": "DotNetAgents.Storage.PostgreSQL",
@@ -285,7 +291,7 @@
     "Premium-plugin, private-factory, hosted-paas, and internal-only packages are intentionally excluded.",
     "Removed ProjectReference edges must be replaced by package references, public abstractions, or package splits before final public release if source compilation requires them."
   ],
-  "packageCount": 35,
+  "packageCount": 40,
   "packages": [
     "DotNetAgents.Agents.Messaging.Kafka",
     "DotNetAgents.Agents.Messaging.RabbitMQ",
@@ -303,13 +309,18 @@
     "DotNetAgents.Database.Abstractions",
     "DotNetAgents.Database.Analysis",
     "DotNetAgents.Database.Dialects",
+    "DotNetAgents.Database.Learning.Patterns",
     "DotNetAgents.Database.Orchestration",
     "DotNetAgents.Database.Security",
     "DotNetAgents.Database.SqlServer.Tooling",
     "DotNetAgents.Database.Validation",
     "DotNetAgents.Interop.MicrosoftAgentFramework",
+    "DotNetAgents.MediaGeneration.Adapters",
+    "DotNetAgents.MediaGeneration.Budget",
+    "DotNetAgents.MediaGeneration.ComfyUI",
     "DotNetAgents.MultiModal.OpenAI",
     "DotNetAgents.Storage.Agents.PostgreSQL",
+    "DotNetAgents.Storage.ArtifactStore",
     "DotNetAgents.Storage.TaskKnowledge.PostgreSQL",
     "DotNetAgents.Storage.TaskKnowledge.SqlServer",
     "DotNetAgents.Tools.Database",

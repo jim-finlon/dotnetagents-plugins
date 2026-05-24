@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
     <ProjectReference Include="..\DotNetAgents.Database.Abstractions\DotNetAgents.Database.Abstractions.csproj" />
     <ProjectReference Include="..\DotNetAgents.Database.AI\DotNetAgents.Database.AI.csproj" />
     <ProjectReference Include="..\DotNetAgents.Database.Analysis\DotNetAgents.Database.Analysis.csproj" />

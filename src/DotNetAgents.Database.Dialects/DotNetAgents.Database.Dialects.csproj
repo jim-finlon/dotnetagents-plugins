@@ -10,4 +10,8 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup><PackageReference Include="DotNetAgents.Core" Version="1.0.0" /></ItemGroup></Project>
+  <ItemGroup>
+    <PackageReference Include="DotNetAgents.Core" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Core\DotNetAgents.Core.csproj')" />
+  </ItemGroup>
+
+<ItemGroup><PackageReference Include="DotNetAgents.Core" Version="1.0.0" /></ItemGroup></Project>
