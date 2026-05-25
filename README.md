@@ -37,6 +37,16 @@ The packages are versioned with the public DotNetAgents package train.
 - Add `dotnetagents-plugins` when the runtime needs production integrations.
 - Use `dotnetagents-examples` when you want runnable starter applications.
 
+## Documentation
+
+The `/docs` tree is the technical guide for plugin users and authors:
+
+- [Choosing Plugins](docs/choosing-plugins.md)
+- [Installation And Configuration](docs/installation-and-configuration.md)
+- [Adapter Families](docs/adapter-families.md)
+- [Credential And Safety Patterns](docs/credential-and-safety.md)
+- [Writing A Plugin](docs/writing-a-plugin.md)
+
 The main platform README is in the core repository:
 
 https://github.com/jim-finlon/dotnetagents
