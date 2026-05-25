@@ -16,6 +16,16 @@ Start here:
 5. [Writing A Plugin](writing-a-plugin.md) - build an adapter that fits the
    public extension model.
 
+Feature guides:
+
+- [Vector Stores](features/vector-stores.md)
+- [Messaging](features/messaging.md)
+- [Storage And Artifacts](features/storage-artifacts.md)
+- [Database Tooling](features/database-tooling.md)
+- [Browser And Computer Use](features/browser-computer-use.md)
+- [UI](features/ui.md)
+- [Multimodal And Media](features/multimodal-media.md)
+
 The plugin repository should stay technical. It explains package selection,
 configuration shape, validation, and integration patterns. Product philosophy
 belongs mostly in the core docs; premium implementation details stay private.
