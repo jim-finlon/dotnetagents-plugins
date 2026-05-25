@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetAgents.Agents.Messaging" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Agents.Messaging\DotNetAgents.Agents.Messaging.csproj')" />
-    <PackageReference Include="DotNetAgents.Agents.Registry" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Agents.Registry\DotNetAgents.Agents.Registry.csproj')" />
-    <PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Ecosystem\DotNetAgents.Ecosystem.csproj')" />
+    <PackageReference Include="DotNetAgents.Agents.Messaging" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Agents.Messaging\DotNetAgents.Agents.Messaging.csproj')" />
+    <PackageReference Include="DotNetAgents.Agents.Registry" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Agents.Registry\DotNetAgents.Agents.Registry.csproj')" />
+    <PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Ecosystem\DotNetAgents.Ecosystem.csproj')" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,5 +18,4 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.5" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.5" />
   </ItemGroup>
-
-<ItemGroup><PackageReference Include="DotNetAgents.Agents.Messaging" Version="1.0.0" /><PackageReference Include="DotNetAgents.Agents.Registry" Version="1.0.0" /><PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0" /></ItemGroup></Project>
+</Project>

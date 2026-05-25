@@ -1,10 +1,9 @@
 # DotNetAgents Public Plugins
 
-This is a private staging snapshot for the future public DotNetAgents plugins
-repository. It contains packages classified as public-plugin in the open-core
-inventory and is used for audit before content is copied into the public plugin
-repo.
+This repository contains optional DotNetAgents plugin packages for messaging,
+storage, vector stores, UI surfaces, media generation, browser automation,
+database tooling, and framework interoperability.
 
-Do not push this staging tree directly to a public remote. Run the package graph
-scanner, public-content audit, license/header checks, and operator approval gate
-first.
+The plugin packages are versioned with the public DotNetAgents package train.
+Build and pack them against the matching DotNetAgents packages from nuget.org or
+from a local package folder produced by the public core repository.

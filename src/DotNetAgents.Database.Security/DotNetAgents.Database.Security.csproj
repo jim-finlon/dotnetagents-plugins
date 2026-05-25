@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetAgents.Security" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Security\DotNetAgents.Security.csproj')" />
+    <PackageReference Include="DotNetAgents.Security" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Security\DotNetAgents.Security.csproj')" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,5 +19,4 @@
   <ItemGroup>
     <PackageReference Include="Directory.Build" Version="1.0.0" Condition="!Exists('..\..\Directory.Build.props')" />
   </ItemGroup>
-
-<ItemGroup><PackageReference Include="DotNetAgents.Security" Version="1.0.0" /></ItemGroup></Project>
+</Project>

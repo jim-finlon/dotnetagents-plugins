@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetAgents.Credentials.Client" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Credentials.Client\DotNetAgents.Credentials.Client.csproj')" />
+    <PackageReference Include="DotNetAgents.Credentials.Client" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Credentials.Client\DotNetAgents.Credentials.Client.csproj')" />
   </ItemGroup>
-
-<ItemGroup><PackageReference Include="DotNetAgents.Credentials.Client" Version="1.0.0" /></ItemGroup></Project>
+</Project>

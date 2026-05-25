@@ -14,9 +14,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
-    <PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Ecosystem\DotNetAgents.Ecosystem.csproj')" />
-    <PackageReference Include="DotNetAgents.MultiModal" Version="1.0.0" Condition="!Exists('..\DotNetAgents.MultiModal\DotNetAgents.MultiModal.csproj')" />
+    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
+    <PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Ecosystem\DotNetAgents.Ecosystem.csproj')" />
+    <PackageReference Include="DotNetAgents.MultiModal" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.MultiModal\DotNetAgents.MultiModal.csproj')" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,5 +24,4 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.5" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.5" />
   </ItemGroup>
-
-<ItemGroup><PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" /><PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0" /><PackageReference Include="DotNetAgents.MultiModal" Version="1.0.0" /></ItemGroup></Project>
+</Project>

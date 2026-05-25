@@ -9,8 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
+    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
     <ProjectReference Include="..\DotNetAgents.ComputerUse\DotNetAgents.ComputerUse.csproj" />
   </ItemGroup>
 
-<ItemGroup><PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" /></ItemGroup><ItemGroup><PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" /></ItemGroup></Project>
+</Project>

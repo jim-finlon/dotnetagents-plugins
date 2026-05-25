@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
+    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
   </ItemGroup>
-
-<ItemGroup><PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" /></ItemGroup></Project>
+</Project>

@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetAgents.Database.Abstractions\DotNetAgents.Database.Abstractions.csproj" />
-    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
+    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,5 +20,4 @@
   <ItemGroup>
     <PackageReference Include="Directory.Build" Version="1.0.0" Condition="!Exists('..\..\Directory.Build.props')" />
   </ItemGroup>
-
-<ItemGroup><PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" /></ItemGroup></Project>
+</Project>

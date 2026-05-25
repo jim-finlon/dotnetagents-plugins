@@ -5,7 +5,7 @@ namespace DotNetAgents.Database.SqlServer.Tooling;
 
 /// <summary>
 /// Restores a SQL Server .bak that is already visible to the engine (e.g. under <c>/var/opt/mssql/backup</c>)
-/// using dynamic <c>MOVE</c> clauses so files land under <paramref name="relocateDataRoot"/> (typically <c>/var/opt/mssql/data</c>).
+/// using dynamic <c>MOVE</c> clauses so files land under the requested relocation root.
 /// </summary>
 public static class SqlServerBackupRestorer
 {
@@ -16,6 +16,7 @@ public static class SqlServerBackupRestorer
     /// <param name="databaseName">Target database name.</param>
     /// <param name="backupPathOnServer">Path as seen inside SQL Server (e.g. <c>/var/opt/mssql/backup/MyDb.bak</c>).</param>
     /// <param name="relocateDataRoot">Directory for relocated data/log files (must exist and be writable by SQL Server).</param>
+    /// <param name="cancellationToken">Cancellation token for the restore operation.</param>
     public static async Task RestoreFromBackupFileAsync(
         string connectionString,
         string databaseName,

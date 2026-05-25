@@ -16,15 +16,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetAgents.Workflow" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Workflow\DotNetAgents.Workflow.csproj')" />
-    <PackageReference Include="DotNetAgents.Tasks" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Tasks\DotNetAgents.Tasks.csproj')" />
-    <PackageReference Include="DotNetAgents.Knowledge" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Knowledge\DotNetAgents.Knowledge.csproj')" />
-    <PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Ecosystem\DotNetAgents.Ecosystem.csproj')" />
+    <PackageReference Include="DotNetAgents.Workflow" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Workflow\DotNetAgents.Workflow.csproj')" />
+    <PackageReference Include="DotNetAgents.Tasks" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Tasks\DotNetAgents.Tasks.csproj')" />
+    <PackageReference Include="DotNetAgents.Knowledge" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Knowledge\DotNetAgents.Knowledge.csproj')" />
+    <PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Ecosystem\DotNetAgents.Ecosystem.csproj')" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.5" />
   </ItemGroup>
-
-<ItemGroup><PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0" /><PackageReference Include="DotNetAgents.Knowledge" Version="1.0.0" /><PackageReference Include="DotNetAgents.Tasks" Version="1.0.0" /><PackageReference Include="DotNetAgents.Workflow" Version="1.0.0" /></ItemGroup></Project>
+</Project>

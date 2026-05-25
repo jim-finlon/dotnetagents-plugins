@@ -9,12 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
-    <PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Ecosystem\DotNetAgents.Ecosystem.csproj')" />
+    <PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Abstractions\DotNetAgents.Abstractions.csproj')" />
+    <PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Ecosystem\DotNetAgents.Ecosystem.csproj')" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Npgsql" Version="10.0.2" />
   </ItemGroup>
-
-<ItemGroup><PackageReference Include="DotNetAgents.Abstractions" Version="1.0.0" /><PackageReference Include="DotNetAgents.Ecosystem" Version="1.0.0" /></ItemGroup></Project>
+</Project>

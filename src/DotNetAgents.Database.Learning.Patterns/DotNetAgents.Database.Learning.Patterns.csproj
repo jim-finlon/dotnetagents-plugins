@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetAgents.Database.Dialects\DotNetAgents.Database.Dialects.csproj" Condition="Exists('..\DotNetAgents.Database.Dialects\DotNetAgents.Database.Dialects.csproj')" />
-    <PackageReference Include="DotNetAgents.Database.Dialects" Version="1.0.0" Condition="!Exists('..\DotNetAgents.Database.Dialects\DotNetAgents.Database.Dialects.csproj')" />
+    <PackageReference Include="DotNetAgents.Database.Dialects" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.Database.Dialects\DotNetAgents.Database.Dialects.csproj')" />
   </ItemGroup>
 
 </Project>

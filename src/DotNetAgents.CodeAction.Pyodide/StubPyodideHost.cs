@@ -2,7 +2,7 @@ namespace DotNetAgents.CodeAction.Pyodide;
 
 /// <summary>
 /// Test-only <see cref="IPyodideHost"/>. Returns scripted responses without invoking Deno.
-/// Production hosts wire <see cref="ProcessPyodideHost"/> (sketched in
+/// Production hosts wire <c>ProcessPyodideHost</c> (sketched in
 /// <c>docs/runbooks/code-action-pyodide-install.md</c>) which shells out to Deno + the
 /// bundled sidecar script.
 /// </summary>

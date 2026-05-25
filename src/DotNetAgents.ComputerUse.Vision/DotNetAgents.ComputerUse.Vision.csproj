@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetAgents.ComputerUse\DotNetAgents.ComputerUse.csproj" />
-    <PackageReference Include="DotNetAgents.MultiModal" Version="1.0.0" Condition="!Exists('..\DotNetAgents.MultiModal\DotNetAgents.MultiModal.csproj')" />
+    <PackageReference Include="DotNetAgents.MultiModal" Version="1.0.0-preview.1" Condition="!Exists('..\DotNetAgents.MultiModal\DotNetAgents.MultiModal.csproj')" />
   </ItemGroup>
-
-<ItemGroup><PackageReference Include="DotNetAgents.MultiModal" Version="1.0.0" /></ItemGroup></Project>
+</Project>
