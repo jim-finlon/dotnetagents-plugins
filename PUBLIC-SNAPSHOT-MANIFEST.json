@@ -286,7 +286,7 @@
     }
   ],
   "notes": [
-    "Private staging snapshot only.",
+    "Public release candidate snapshot.",
     "Public-core project references are converted to PackageReference entries so the plugin repo consumes the public core as packages.",
     "Premium-plugin, private-factory, hosted-paas, and internal-only packages are intentionally excluded.",
     "Removed ProjectReference edges must be replaced by package references, public abstractions, or package splits before final public release if source compilation requires them."
