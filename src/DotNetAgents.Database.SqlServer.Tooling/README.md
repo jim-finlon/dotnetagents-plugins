@@ -1,6 +1,6 @@
 # DotNetAgents.Database.SqlServer.Tooling
 
-Small helpers for **DNA migration lanes** that need to:
+Small helpers for migration lanes that need to:
 
 - Restore `.bak` files into a disposable SQL Server container with automatic `MOVE` relocation (via `RESTORE FILELISTONLY`)
 - Capture **approximate row counts** per user table for parity checks against PostgreSQL imports
@@ -23,4 +23,5 @@ var counts = await SqlServerBackupRestorer.GetUserTableRowCountsAsync(
 
 Paths in `backupPathOnServer` / `relocateDataRoot` are **as seen inside the SQL Server container**.
 
-See also: `scripts/legacy-mssql-restore/` in your repository for the Docker + PowerShell replay path.
+Pair these helpers with your repository's own Docker or PowerShell replay path
+when you need repeatable local restore checks.
