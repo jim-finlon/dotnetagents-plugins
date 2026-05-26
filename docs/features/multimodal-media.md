@@ -16,11 +16,14 @@ audio, video, and generated media.
 Use provider-neutral contracts at the workflow boundary:
 
 ```csharp
-public sealed record MediaInput(
-    string ArtifactId,
-    string ContentType,
-    string Purpose);
+public interface IMultimodalProcessor
+{
+    Task<string> AnalyzeImageAsync(byte[] imageBytes, string prompt, CancellationToken ct = default);
+}
 ```
+
+For a complete example, see the [Plugin Showcase Pack](../../dotnetagents-examples/examples/plugin-showcase/README.md).
+
 
 Provider-specific settings should stay in adapter configuration.
 

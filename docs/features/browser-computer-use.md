@@ -19,15 +19,15 @@ bounded and observable.
 ## Technical Pattern
 
 ```csharp
-public sealed record BrowserActionPlan(
-    string Goal,
-    string StartUrl,
-    bool ReadOnly,
-    string[] AllowedDomains);
+public interface IBrowserDriver
+{
+    Task<string> NavigateAndCaptureAsync(string url, CancellationToken ct = default);
+}
 ```
 
-For mutations, use preview/confirm and capture evidence before and after the
-action.
+For a complete example, see the [Plugin Showcase Pack](../../dotnetagents-examples/examples/plugin-showcase/README.md).
+
+For mutations, use preview/confirm and capture evidence before and after the action.
 
 ## Implementation Checklist
 

@@ -78,3 +78,8 @@ agent workflows provider-neutral where practical.
 Interop plugins bridge DotNetAgents with other agent frameworks. Use them when a
 team already has an ecosystem investment but wants a .NET runtime, governance,
 or protocol surface around it.
+
+## Plugin Showcase
+
+For a complete, runnable console example demonstrating the configuration and usage of all 7 public plugin families with offline fakes and configuration options, see the [Plugin Showcase Pack](../../dotnetagents-examples/examples/plugin-showcase/README.md) in the `dotnetagents-examples` repository.
+

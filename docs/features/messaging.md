@@ -23,11 +23,14 @@ notifications.
 Use typed messages and explicit envelopes:
 
 ```csharp
-public sealed record AgentWorkQueued(
-    string WorkId,
-    string WorkKind,
-    DateTimeOffset QueuedAtUtc);
+public interface IMessagingPublisher
+{
+    Task PublishAsync<T>(string topic, T message, CancellationToken ct = default);
+}
 ```
+
+For a complete example, see the [Plugin Showcase Pack](../../dotnetagents-examples/examples/plugin-showcase/README.md).
+
 
 Do not pass raw prompt text or secrets through a broad event bus unless the bus
 is designed for that data class.

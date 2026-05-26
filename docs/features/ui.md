@@ -13,14 +13,15 @@ steer agent work.
 
 ## Technical Pattern
 
-UI should display the agent's evidence, not only the final answer:
+```csharp
+public interface IUiApprovalService
+{
+    Task<bool> RequestApprovalAsync(string actionName, string reason, CancellationToken ct = default);
+}
+```
 
-- current state
-- pending action
-- preview payload
-- warnings
-- validation result
-- audit or run id
+For a complete example, see the [Plugin Showcase Pack](../../dotnetagents-examples/examples/plugin-showcase/README.md).
+
 
 ## Implementation Checklist
 

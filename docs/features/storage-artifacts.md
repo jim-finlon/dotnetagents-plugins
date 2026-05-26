@@ -16,12 +16,15 @@ should live outside transient memory.
 Store by reference:
 
 ```csharp
-public sealed record ArtifactRef(
-    string Id,
-    string ContentType,
-    string Uri,
-    string? Sha256);
+public interface IArtifactStore
+{
+    Task SaveAsync(string key, string content, CancellationToken ct = default);
+    Task<string?> LoadAsync(string key, CancellationToken ct = default);
+}
 ```
+
+For a complete example, see the [Plugin Showcase Pack](../../dotnetagents-examples/examples/plugin-showcase/README.md).
+
 
 Agents should pass artifact references through workflows instead of copying
 large payloads into prompts or logs.

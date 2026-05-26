@@ -19,11 +19,14 @@ preview/confirm, tests, and rollback planning.
 ## Technical Pattern
 
 ```csharp
-public sealed record DatabaseInspectionRequest(
-    string ConnectionName,
-    string Schema,
-    bool ReadOnly);
+public interface IDatabaseQueryExecutor
+{
+    Task<IReadOnlyList<string>> ExecuteQueryAsync(string query, CancellationToken ct = default);
+}
 ```
+
+For a complete example, see the [Plugin Showcase Pack](../../dotnetagents-examples/examples/plugin-showcase/README.md).
+
 
 Connection names should map to configuration or secret-store references, not raw
 connection strings in tool arguments.
